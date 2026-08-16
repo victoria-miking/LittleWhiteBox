@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TavernTaskVersionRecord } from '../../../../../shared/tasks/task-types';
 import {
+    tavernTaskCounterparty,
     tavernTaskRewardLabel,
     tavernTaskStatusLabel,
     tavernTaskStatusTone,
@@ -34,9 +35,7 @@ const emit = defineEmits<{
         : (task.progressSummary || task.resultSummary || task.objective) }}
     </p>
     <span class="tavern-task-card-foot">
-      <small>{{ task.issuer.kind === 'player'
-        ? (task.assignee?.name || '尚未选定执行人')
-        : task.location }}</small>
+      <small>{{ tavernTaskCounterparty(task) }}</small>
       <span>
         <b>{{ tavernTaskRewardLabel(task.reward) }}</b>
         <i>◈</i>

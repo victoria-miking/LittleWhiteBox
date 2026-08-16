@@ -18,7 +18,6 @@ import {
 import {
     TAVERN_TASK_CURRENT_MARKER,
     TAVERN_TASK_PLAYER_PARTY_ID,
-    TAVERN_TASK_PROGRESS_SUMMARY_MAX_LENGTH,
     normalizeTavernTaskAnchorOrder,
     normalizeTavernTaskCandidate,
     normalizeTavernTaskCandidates,
@@ -51,8 +50,6 @@ const TASK_TEXT_LIMIT = 8_000;
 const ECONOMY_ACCOUNT_ID_MAX_LENGTH = 180;
 const TASK_ESCROW_ACCOUNT_PREFIX = 'escrow:task:';
 const TASK_COUNTERPARTY_ACCOUNT_PREFIX = 'counterparty:';
-const TASK_BOARD_FUNDING_NAME = '任务终端托管';
-const TASK_BOARD_FUNDING_DESCRIPTION = '匿名委托报酬的内部结算来源。';
 const TASK_ID_MAX_LENGTH = ECONOMY_ACCOUNT_ID_MAX_LENGTH - TASK_ESCROW_ACCOUNT_PREFIX.length;
 const TASK_PARTY_ID_MAX_LENGTH = ECONOMY_ACCOUNT_ID_MAX_LENGTH - TASK_COUNTERPARTY_ACCOUNT_PREFIX.length;
 
@@ -83,15 +80,6 @@ function createId(prefix: string): string {
     return `${prefix}-${now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-function boardFundingParty(): TavernTaskParty {
-    return {
-        kind: 'world',
-        id: createId('task-funding'),
-        name: TASK_BOARD_FUNDING_NAME,
-        description: TASK_BOARD_FUNDING_DESCRIPTION,
-    };
-}
-
 function clone<T>(value: T): T {
     if (typeof structuredClone === 'function') {return structuredClone(value);}
     return JSON.parse(JSON.stringify(value)) as T;
@@ -116,12 +104,6 @@ function normalizeActionId(value = ''): string {
     const actionId = String(value || '').trim().slice(0, 220);
     if (!actionId) {throwTavernTaskError('task_action_required');}
     return actionId;
-}
-
-function normalizeProgressSummary(value: unknown): string {
-    return [...normalizeText(value, TASK_TEXT_LIMIT, true)]
-        .slice(0, TAVERN_TASK_PROGRESS_SUMMARY_MAX_LENGTH)
-        .join('');
 }
 
 function normalizeRevision(value: unknown): number {
@@ -634,7 +616,6 @@ export async function acceptTavernTaskListing(input: AcceptTavernTaskListingInpu
         }
         const timestamp = now();
         const escrowAccountId = buildTavernTaskEscrowAccountId(taskId);
-        const fundingParty = boardFundingParty();
         const version = normalizeTavernTaskVersionRecord({
             sessionId,
             taskId,
@@ -643,7 +624,12 @@ export async function acceptTavernTaskListing(input: AcceptTavernTaskListingInpu
             currentMarker: TAVERN_TASK_CURRENT_MARKER,
             actionId,
             status: 'active',
-            issuer: fundingParty,
+            issuer: {
+                kind: 'world',
+                id: listing.issuer.id,
+                name: listing.issuer.name,
+                description: listing.issuer.description,
+            },
             assignee: playerParty(input.playerName),
             reward: listing.reward,
             escrowAccountId,
@@ -654,10 +640,8 @@ export async function acceptTavernTaskListing(input: AcceptTavernTaskListingInpu
             risk: listing.risk,
             grade: listing.grade,
             tags: listing.tags,
-            ...(listing.posture ? { posture: listing.posture } : {}),
-            ...(listing.timing ? { timing: listing.timing } : {}),
             hook: listing.hook,
-            progressSummary: '已接取任务',
+            progressSummary: '尚未开始',
             resultSummary: '',
             candidates: [],
             sourceBoardId: boardId,
@@ -671,12 +655,12 @@ export async function acceptTavernTaskListing(input: AcceptTavernTaskListingInpu
         await postTavernEconomyTransactionInCurrentDbTransaction({
             sessionId,
             idempotencyKey: fundingIdempotencyKey(taskId),
-            fromAccountId: buildTavernTaskCounterpartyAccountId(fundingParty.id),
+            fromAccountId: buildTavernTaskCounterpartyAccountId(listing.issuer.id),
             toAccountId: escrowAccountId,
             amount: listing.reward,
             kind: 'task_escrow',
             title: `托管 · ${listing.title}`,
-            note: '任务终端已锁定委托报酬。',
+            note: `发布者 ${listing.issuer.name} 锁定任务报酬。`,
             sourceDomain: 'tasks',
             sourceId: taskId,
             anchorOrder,
@@ -965,7 +949,7 @@ async function progressTaskInCurrentTransaction(
     const expectedRevision = normalizeRevision(input.expectedRevision);
     const expectedVersionId = normalizeVersionId(input.expectedVersionId);
     const anchorOrder = normalizeTavernTaskAnchorOrder(input.anchorOrder);
-    const progressSummary = normalizeProgressSummary(input.progressSummary);
+    const progressSummary = normalizeText(input.progressSummary, TASK_TEXT_LIMIT, true);
     const replay = await findActionVersion(sessionId, actionId);
     if (replay) {
         await assertMutationReplayPredecessor(replay, {
@@ -1185,7 +1169,7 @@ export function applyTavernTaskStagedAction(
     const previousAction = context.actions.find((action) => action.actionId === actionId);
     if (previousAction) {
         const summaryMatches = input.kind === 'progress'
-            ? previousAction.progressSummary === normalizeProgressSummary(input.progressSummary)
+            ? previousAction.progressSummary === normalizeText(input.progressSummary, TASK_TEXT_LIMIT, true)
             : previousAction.resultSummary === normalizeText(input.resultSummary, TASK_TEXT_LIMIT, true);
         if (
             previousAction.taskId !== taskId
@@ -1216,7 +1200,7 @@ export function applyTavernTaskStagedAction(
         anchorOrder,
     };
     if (input.kind === 'progress') {
-        const progressSummary = normalizeProgressSummary(input.progressSummary);
+        const progressSummary = normalizeText(input.progressSummary, TASK_TEXT_LIMIT, true);
         if (progressSummary === current.progressSummary) {return { version: clone(current), changed: false };}
         action.progressSummary = progressSummary;
         patch = { progressSummary };

@@ -21,26 +21,21 @@ import { resolveTavernTaskPublishAvailability } from '../app-src/features/phone-
 import { useTavernTasksController } from '../app-src/features/phone-os/apps/tasks/useTavernTasksController';
 
 function taskListings(): TavernTaskListing[] {
-    const rows = [
-        ['禁忌', 'B', 150, '易介入', '现在就行'],
-        ['接触', 'C', 60, '易介入', '任意时候'],
-        ['夹缝', 'C', 100, '易介入', '现在就行'],
-        ['窥秘', 'C', 80, '中介入', '任意时候'],
-        ['掠夺', 'C', 100, '中介入', '特定时机：下课后'],
-        ['怪癖', 'D', 25, '深介入', '特定时机：入夜后'],
-    ] as const;
-    return rows.map(([direction, grade, reward, posture, timing], index) => ({
+    return (['E', 'D', 'C', 'B', 'A', 'S'] as const).map((grade, index) => ({
         id: `controller-listing-${index}`,
         grade,
-        tags: [direction, '测试'],
-        posture,
+        tags: ['测试'],
         title: `控制器委托 ${index}`,
+        issuer: {
+            id: `controller-issuer-${index}`,
+            name: `委托人 ${index}`,
+            description: '用于控制器行为测试。',
+        },
         hook: '测试入口',
         objective: '验证读取不会倒退。',
         location: '测试区',
-        timing,
         risk: '无',
-        reward,
+        reward: [10, 25, 60, 180, 400, 900][index],
     }));
 }
 

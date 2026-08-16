@@ -61,7 +61,7 @@ export function resolveXbTavernProviderConfig(
             baseUrl: '',
             model: '',
             apiKey: '',
-            temperature: 1,
+            temperature: 0.2,
             maxTokens: null,
             timeoutMs: Number(options.timeoutMs) || 15 * 60 * 1000,
             toolMode: 'native',
@@ -94,7 +94,7 @@ export function resolveXbTavernProviderConfig(
         baseUrl: String(providerConfig.baseUrl || ''),
         model,
         apiKey,
-        temperature: Number(providerConfig.temperature ?? 1),
+        temperature: Number(providerConfig.temperature ?? 0.2),
         maxTokens: providerConfig.maxTokens === null || providerConfig.maxTokens === undefined
             ? null
             : Number(providerConfig.maxTokens),

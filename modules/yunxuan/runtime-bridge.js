@@ -3,6 +3,7 @@ import { getContext } from '../../../../../extensions.js';
 import { getLocalVariable, setLocalVariable } from '../../../../../variables.js';
 import { applyStateForMessage, restoreStateV2ToFloor, trimStateV2FromFloor } from '../variables/state2/index.js';
 import { YunxuanCanonProvider } from './canon-provider.js';
+import { filterYunxuanRecallResult, getLastYunxuanRecallDebug, getLastYunxuanRecallMetrics } from './knowledge-filter.js';
 
 function parseValue(value) {
     if (value && typeof value === 'object') return structuredClone(value);
@@ -43,8 +44,18 @@ function stateBlock(nextState) {
     return `<state>\nyunxuan: ${JSON.stringify(nextState.yunxuan)}\n</state>`;
 }
 
+function saveMetadataSoon() {
+    setTimeout(() => {
+        Promise.resolve(getContext()?.saveMetadata?.()).catch(error => {
+            console.error('[LittleWhiteBox/Yunxuan] Runtime metadata save failed.', error);
+        });
+    }, 0);
+}
+
 export function createYunxuanRuntimeApi({ fieldPolicy = null } = {}) {
     let canonProvider = fieldPolicy ? new YunxuanCanonProvider(fieldPolicy) : null;
+    const transactions = [];
+    const rollbacks = [];
     return Object.freeze({
         getRuntimeSnapshotSync,
         async getRuntimeSnapshot() {
@@ -53,6 +64,21 @@ export function createYunxuanRuntimeApi({ fieldPolicy = null } = {}) {
         configureCanonPolicy(nextFieldPolicy) {
             canonProvider = new YunxuanCanonProvider(nextFieldPolicy || {});
             return true;
+        },
+        filterRecallForViewer(result) {
+            return filterYunxuanRecallResult(result);
+        },
+        getLastRecallMetrics() {
+            return getLastYunxuanRecallMetrics();
+        },
+        getLastRecallDebug() {
+            return getLastYunxuanRecallDebug();
+        },
+        getTransactionDebug() {
+            return structuredClone(transactions);
+        },
+        getRollbackDebug() {
+            return structuredClone(rollbacks);
         },
         async initializeRuntime(nextState) {
             if (getRuntimeSnapshotSync()) return getRuntimeSnapshotSync();
@@ -72,6 +98,14 @@ export function createYunxuanRuntimeApi({ fieldPolicy = null } = {}) {
             }
             const result = applyStateForMessage(transaction.message_ref.message_id, stateBlock(nextState));
             if (result.errors?.length) throw new Error(`Variables 2.0 Guard：${result.errors.join('；')}`);
+            transactions.push({
+                message_id: transaction.message_ref.message_id,
+                swipe_id: transaction.message_ref.swipe_id ?? 0,
+                transaction_id: transaction.transaction_id,
+                revision: nextState.yunxuan.meta.revision,
+            });
+            if (transactions.length > 50) transactions.shift();
+            saveMetadataSoon();
             return { state: getRuntimeSnapshotSync(), atoms: result.atoms || [], skipped: !!result.skipped };
         },
         async rollbackRuntime(messageId, swipeId = null) {
@@ -79,6 +113,9 @@ export function createYunxuanRuntimeApi({ fieldPolicy = null } = {}) {
             if (!Number.isInteger(floor) || floor < 0) throw new Error('messageId 非法。');
             await restoreStateV2ToFloor(floor - 1);
             await trimStateV2FromFloor(floor);
+            rollbacks.push({ message_id: floor, swipe_id: swipeId ?? 0 });
+            if (rollbacks.length > 50) rollbacks.shift();
+            saveMetadataSoon();
             return getRuntimeSnapshotSync() || restoreBaseState();
         },
         async emit(eventName, payload) {

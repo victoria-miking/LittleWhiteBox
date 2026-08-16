@@ -30,11 +30,7 @@ const rewardSizeClass = computed(() => {
     <span class="tavern-task-ticket-grade">{{ listing.grade }}</span>
     <span class="tavern-task-ticket-copy">
       <b class="tavern-task-ticket-title">{{ listing.title }}</b>
-      <span class="tavern-task-ticket-meta">
-        <em :class="`is-${listing.posture || 'legacy'}`">{{ listing.posture || '未标注' }}</em>
-        <small>{{ listing.timing || '时机未标注' }}</small>
-      </span>
-      <small class="tavern-task-ticket-place">{{ listing.location }}</small>
+      <small>{{ listing.issuer.name }} · {{ listing.location }}</small>
     </span>
     <span class="tavern-task-ticket-reward">
       <strong

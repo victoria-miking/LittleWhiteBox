@@ -41,7 +41,7 @@ const emit = defineEmits<{
     >
       <article class="tavern-task-dossier">
         <header>
-          <span>{{ listing.tags[0] }}</span>
+          <span>{{ listing.issuer.name }}</span>
           <h2>{{ listing.title }}</h2>
           <p>{{ listing.hook }}</p>
         </header>
@@ -58,17 +58,13 @@ const emit = defineEmits<{
             <span>地点</span>
             <p>{{ listing.location }}</p>
           </section>
-          <section v-if="listing.posture">
-            <span>介入</span>
-            <p>{{ listing.posture }}</p>
-          </section>
-          <section v-if="listing.timing">
-            <span>时机</span>
-            <p>{{ listing.timing }}</p>
-          </section>
           <section v-if="listing.risk">
             <span>风险</span>
             <p>{{ listing.risk }}</p>
+          </section>
+          <section>
+            <span>发布者</span>
+            <p>{{ listing.issuer.description }}</p>
           </section>
         </div>
         <div

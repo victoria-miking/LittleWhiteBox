@@ -3,7 +3,6 @@ import type { TavernPhonePresentationMode } from '../../features/phone-os/phone-
 
 defineProps<{
     mode: TavernPhonePresentationMode;
-    chromeTone?: 'dark';
 }>();
 
 const emit = defineEmits<{
@@ -14,7 +13,7 @@ const emit = defineEmits<{
 <template>
   <section
     class="tavern-phone-device"
-    :class="[`is-${mode}`, { 'is-chrome-dark': chromeTone === 'dark' }]"
+    :class="[`is-${mode}`]"
     role="document"
   >
     <button

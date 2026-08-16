@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { YunxuanCanonProvider } from '../canon-provider.js';
-import { filterYunxuanMemoryCandidates } from '../knowledge-filter.js';
+import { filterYunxuanMemoryCandidates, filterYunxuanRecallResult, getLastYunxuanRecallMetrics } from '../knowledge-filter.js';
 import { normalizeYunxuanMemoryMetadata } from '../memory-metadata.js';
 import { YUNXUAN_PLANNER_BLOCKS } from '../planner-preset.js';
 import { stripYunxuanTurnEnvelope } from '../turn-envelope.js';
@@ -16,6 +16,17 @@ test('Story Summary metadata 提供完整安全默认值', () => {
         source_message_ids: [3],
         conflict_status: 'none',
     });
+});
+
+test('recall metrics count author and canon-conflict removals without retaining content', () => {
+    globalThis.LittleWhiteBoxYunxuan = { getRuntimeSnapshotSync: () => ({ yunxuan: { meta: { viewer: { primary_character_id: 'ning_yunxi' } } } }) };
+    const author = { id: 'author-sentinel', memory_metadata: { authority: 'runtime', visibility: 'author', known_by: [], conflict_status: 'clean' } };
+    const conflict = { id: 'wrong-canon', memory_metadata: { authority: 'runtime', visibility: 'public', known_by: [], conflict_status: 'canon_conflict' } };
+    const publicMemory = { id: 'public-memory', memory_metadata: { authority: 'runtime', visibility: 'public', known_by: [], conflict_status: 'clean' } };
+    const result = filterYunxuanRecallResult({ events: [author, conflict, publicMemory], causalChain: [], l0Selected: [], l1ByFloor: new Map() });
+    assert.deepEqual(result.events.map(item => item.id), ['public-memory']);
+    assert.deepEqual(getLastYunxuanRecallMetrics(), { candidates: 3, accepted: 1, removed: 2, author_removed: 1, conflict_removed: 1 });
+    delete globalThis.LittleWhiteBoxYunxuan;
 });
 
 test('Knowledge Filter 在普通模式彻底移除 author 与冲突项', () => {

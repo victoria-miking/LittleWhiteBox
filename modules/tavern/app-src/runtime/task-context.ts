@@ -78,19 +78,13 @@ function storyTaskBlock(task: TavernTaskVersionRecord): string {
     const executor = task.assignee ? partyLabel(task.assignee) : '';
     return [
         `《${escapeEvidence(task.title)}》`,
-        `等级：${escapeEvidence(task.grade)}`,
-        task.tags.length ? `标签：${task.tags.map(escapeEvidence).join('、')}` : '',
         isPlayerIssued
             ? `${escapeEvidence(partyLabel(task.issuer))}发起的委托，${executor ? `执行人：${escapeEvidence(executor)}` : '尚未有人接手。'}`
-            : '',
-        task.hook ? `缘由与线索：${escapeEvidence(task.hook)}` : '',
-        `目标：${escapeEvidence(task.objective)}`,
-        task.requirements ? `要求：${escapeEvidence(task.requirements)}` : '',
+            : `委托人：${escapeEvidence(partyLabel(task.issuer))}`,
+        `${isPlayerIssued ? '目标' : '委托'}：${escapeEvidence(task.objective)}`,
         `地点：${escapeEvidence(task.location || '未指定')}`,
-        task.timing ? `时机：${escapeEvidence(task.timing)}` : '',
-        task.risk ? `风险：${escapeEvidence(task.risk)}` : '',
         `报酬：${task.reward} 小白币`,
-        `此前进展：${escapeEvidence(task.progressSummary || (task.status === 'active' ? '已接取任务' : '等待应征者'))}`,
+        `当前进展：${escapeEvidence(task.progressSummary || '尚未开始')}`,
     ].filter(Boolean).join('\n');
 }
 
@@ -163,8 +157,8 @@ function managerTaskRecord(task: TavernTaskVersionRecord, observedAtAnchorOrder?
         taskId: task.taskId,
         revision: task.revision,
         status: task.status,
+        issuer: partyLabel(task.issuer),
         issuerKind: task.issuer.kind,
-        ...(task.issuer.kind === 'player' ? { issuer: partyLabel(task.issuer) } : {}),
         assignee: partyLabel(task.assignee),
         assigneeKind: task.assignee?.kind || '',
         ...(worldAssignee ? {

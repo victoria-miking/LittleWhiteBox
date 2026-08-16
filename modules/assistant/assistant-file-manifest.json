@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T03:37:19.406Z",
+  "generatedAt": "2026-07-30T06:23:53.786Z",
   "version": 2,
   "files": [
     {
@@ -74,13 +74,6 @@
     },
     {
       "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/core/message-button-ownership.js",
-      "relativePath": "core/message-button-ownership.js",
-      "extension": ".js",
-      "sizeBytes": 454
-    },
-    {
-      "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/core/server-storage.js",
       "relativePath": "core/server-storage.js",
       "extension": ".js",
@@ -119,77 +112,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/index.js",
       "relativePath": "index.js",
       "extension": ".js",
-      "sizeBytes": 56208
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/integrations/tauritavern-chat-surface/decorator-lifecycle.js",
-      "relativePath": "integrations/tauritavern-chat-surface/decorator-lifecycle.js",
-      "extension": ".js",
-      "sizeBytes": 932
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/integrations/tauritavern-chat-surface/environment.js",
-      "relativePath": "integrations/tauritavern-chat-surface/environment.js",
-      "extension": ".js",
-      "sizeBytes": 821
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/integrations/tauritavern-chat-surface/iframe-runtime.js",
-      "relativePath": "integrations/tauritavern-chat-surface/iframe-runtime.js",
-      "extension": ".js",
-      "sizeBytes": 593
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/integrations/tauritavern-chat-surface/index.js",
-      "relativePath": "integrations/tauritavern-chat-surface/index.js",
-      "extension": ".js",
-      "sizeBytes": 1089
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/integrations/tauritavern-chat-surface/message-decorators.js",
-      "relativePath": "integrations/tauritavern-chat-surface/message-decorators.js",
-      "extension": ".js",
-      "sizeBytes": 1021
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/integrations/tauritavern-chat-surface/participant.js",
-      "relativePath": "integrations/tauritavern-chat-surface/participant.js",
-      "extension": ".js",
-      "sizeBytes": 1791
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/integrations/tauritavern-chat-surface/README.md",
-      "relativePath": "integrations/tauritavern-chat-surface/README.md",
-      "extension": ".md",
-      "sizeBytes": 1585
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/integrations/tauritavern-chat-surface/runtime-claims.js",
-      "relativePath": "integrations/tauritavern-chat-surface/runtime-claims.js",
-      "extension": ".js",
-      "sizeBytes": 367
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/integrations/tauritavern-chat-surface/settings-ui.js",
-      "relativePath": "integrations/tauritavern-chat-surface/settings-ui.js",
-      "extension": ".js",
-      "sizeBytes": 1329
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/integrations/tauritavern-chat-surface/tests/chat-surface-contract.test.js",
-      "relativePath": "integrations/tauritavern-chat-surface/tests/chat-surface-contract.test.js",
-      "extension": ".js",
-      "sizeBytes": 9068
+      "sizeBytes": 54137
     },
     {
       "source": "littlewhitebox",
@@ -294,7 +217,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/manifest.json",
       "relativePath": "manifest.json",
       "extension": ".json",
-      "sizeBytes": 371
+      "sizeBytes": 318
     },
     {
       "source": "littlewhitebox",
@@ -357,7 +280,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/agent-core/config.js",
       "relativePath": "modules/agent-core/config.js",
       "extension": ".js",
-      "sizeBytes": 13155
+      "sizeBytes": 12305
     },
     {
       "source": "littlewhitebox",
@@ -378,7 +301,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/agent-core/provider-config.js",
       "relativePath": "modules/agent-core/provider-config.js",
       "extension": ".js",
-      "sizeBytes": 7399
+      "sizeBytes": 7483
     },
     {
       "source": "littlewhitebox",
@@ -504,14 +427,14 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/agent-core/ui/settings-markup.js",
       "relativePath": "modules/agent-core/ui/settings-markup.js",
       "extension": ".js",
-      "sizeBytes": 14777
+      "sizeBytes": 14362
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/agent-core/ui/settings-panel.js",
       "relativePath": "modules/agent-core/ui/settings-panel.js",
       "extension": ".js",
-      "sizeBytes": 56823
+      "sizeBytes": 55618
     },
     {
       "source": "littlewhitebox",
@@ -588,7 +511,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/assistant/app-src/prompts/system-prompt.js",
       "relativePath": "modules/assistant/app-src/prompts/system-prompt.js",
       "extension": ".js",
-      "sizeBytes": 18853
+      "sizeBytes": 18735
     },
     {
       "source": "littlewhitebox",
@@ -742,7 +665,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/assistant/assistant-file-manifest.json",
       "relativePath": "modules/assistant/assistant-file-manifest.json",
       "extension": ".json",
-      "sizeBytes": 309306
+      "sizeBytes": 305790
     },
     {
       "source": "littlewhitebox",
@@ -763,7 +686,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/assistant/assistant.js",
       "relativePath": "modules/assistant/assistant.js",
       "extension": ".js",
-      "sizeBytes": 138045
+      "sizeBytes": 138995
     },
     {
       "source": "littlewhitebox",
@@ -917,7 +840,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/assistant/tests/config.test.js",
       "relativePath": "modules/assistant/tests/config.test.js",
       "extension": ".js",
-      "sizeBytes": 10704
+      "sizeBytes": 8932
     },
     {
       "source": "littlewhitebox",
@@ -939,13 +862,6 @@
       "relativePath": "modules/assistant/tests/delegate-runner.test.js",
       "extension": ".js",
       "sizeBytes": 15962
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/assistant/tests/file-manifest.test.js",
-      "relativePath": "modules/assistant/tests/file-manifest.test.js",
-      "extension": ".js",
-      "sizeBytes": 1424
     },
     {
       "source": "littlewhitebox",
@@ -1617,7 +1533,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/ena-planner/ena-planner.js",
       "relativePath": "modules/ena-planner/ena-planner.js",
       "extension": ".js",
-      "sizeBytes": 52035
+      "sizeBytes": 52576
     },
     {
       "source": "littlewhitebox",
@@ -1673,7 +1589,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/iframe-renderer.js",
       "relativePath": "modules/iframe-renderer.js",
       "extension": ".js",
-      "sizeBytes": 35731
+      "sizeBytes": 28503
     },
     {
       "source": "littlewhitebox",
@@ -1687,7 +1603,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/message-preview.js",
       "relativePath": "modules/message-preview.js",
       "extension": ".js",
-      "sizeBytes": 56842
+      "sizeBytes": 55657
     },
     {
       "source": "littlewhitebox",
@@ -1729,7 +1645,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-outline/story-outline.js",
       "relativePath": "modules/story-outline/story-outline.js",
       "extension": ".js",
-      "sizeBytes": 79452
+      "sizeBytes": 79198
     },
     {
       "source": "littlewhitebox",
@@ -1737,13 +1653,6 @@
       "relativePath": "modules/story-summary/data/character-aliases.js",
       "extension": ".js",
       "sizeBytes": 18736
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-summary/data/chat-toggle.js",
-      "relativePath": "modules/story-summary/data/chat-toggle.js",
-      "extension": ".js",
-      "sizeBytes": 969
     },
     {
       "source": "littlewhitebox",
@@ -1764,28 +1673,21 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-summary/data/store.js",
       "relativePath": "modules/story-summary/data/store.js",
       "extension": ".js",
-      "sizeBytes": 34369
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-summary/data/summary-undo.js",
-      "relativePath": "modules/story-summary/data/summary-undo.js",
-      "extension": ".js",
-      "sizeBytes": 12795
+      "sizeBytes": 27093
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-summary/generate/generator.js",
       "relativePath": "modules/story-summary/generate/generator.js",
       "extension": ".js",
-      "sizeBytes": 13977
+      "sizeBytes": 11169
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-summary/generate/llm.js",
       "relativePath": "modules/story-summary/generate/llm.js",
       "extension": ".js",
-      "sizeBytes": 18267
+      "sizeBytes": 15796
     },
     {
       "source": "littlewhitebox",
@@ -1806,7 +1708,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-summary/story-summary-ui.js",
       "relativePath": "modules/story-summary/story-summary-ui.js",
       "extension": ".js",
-      "sizeBytes": 131633
+      "sizeBytes": 129280
     },
     {
       "source": "littlewhitebox",
@@ -1820,14 +1722,14 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-summary/story-summary.html",
       "relativePath": "modules/story-summary/story-summary.html",
       "extension": ".html",
-      "sizeBytes": 76162
+      "sizeBytes": 75856
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-summary/story-summary.js",
       "relativePath": "modules/story-summary/story-summary.js",
       "extension": ".js",
-      "sizeBytes": 149404
+      "sizeBytes": 134797
     },
     {
       "source": "littlewhitebox",
@@ -1835,27 +1737,6 @@
       "relativePath": "modules/story-summary/tests/character-aliases.test.js",
       "extension": ".js",
       "sizeBytes": 8176
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-summary/tests/chat-toggle.test.js",
-      "relativePath": "modules/story-summary/tests/chat-toggle.test.js",
-      "extension": ".js",
-      "sizeBytes": 1098
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-summary/tests/replay-openai-shim.test.js",
-      "relativePath": "modules/story-summary/tests/replay-openai-shim.test.js",
-      "extension": ".js",
-      "sizeBytes": 732
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/story-summary/tests/summary-undo.test.js",
-      "relativePath": "modules/story-summary/tests/summary-undo.test.js",
-      "extension": ".js",
-      "sizeBytes": 8294
     },
     {
       "source": "littlewhitebox",
@@ -2079,7 +1960,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/App.vue",
       "relativePath": "modules/tavern/app-src/App.vue",
       "extension": ".vue",
-      "sizeBytes": 224124
+      "sizeBytes": 224067
     },
     {
       "source": "littlewhitebox",
@@ -2321,31 +2202,31 @@
     },
     {
       "source": "littlewhitebox",
+      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/pet/TavernPetActions.vue",
+      "relativePath": "modules/tavern/app-src/components/phone-os/apps/pet/TavernPetActions.vue",
+      "extension": ".vue",
+      "sizeBytes": 1463
+    },
+    {
+      "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/pet/TavernPetApp.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/apps/pet/TavernPetApp.vue",
       "extension": ".vue",
-      "sizeBytes": 9332
+      "sizeBytes": 5839
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/pet/TavernPetChatBar.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/apps/pet/TavernPetChatBar.vue",
       "extension": ".vue",
-      "sizeBytes": 2645
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/pet/TavernPetGiftShelf.vue",
-      "relativePath": "modules/tavern/app-src/components/phone-os/apps/pet/TavernPetGiftShelf.vue",
-      "extension": ".vue",
-      "sizeBytes": 1865
+      "sizeBytes": 2270
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/pet/TavernPetIcon.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/apps/pet/TavernPetIcon.vue",
       "extension": ".vue",
-      "sizeBytes": 731
+      "sizeBytes": 808
     },
     {
       "source": "littlewhitebox",
@@ -2353,13 +2234,6 @@
       "relativePath": "modules/tavern/app-src/components/phone-os/apps/pet/TavernPetLeaveDialog.vue",
       "extension": ".vue",
       "sizeBytes": 2288
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/pet/TavernPetMomentSheet.vue",
-      "relativePath": "modules/tavern/app-src/components/phone-os/apps/pet/TavernPetMomentSheet.vue",
-      "extension": ".vue",
-      "sizeBytes": 2580
     },
     {
       "source": "littlewhitebox",
@@ -2373,14 +2247,14 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/pet/TavernPetNestDrawer.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/apps/pet/TavernPetNestDrawer.vue",
       "extension": ".vue",
-      "sizeBytes": 5354
+      "sizeBytes": 5235
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/pet/TavernPetStage.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/apps/pet/TavernPetStage.vue",
       "extension": ".vue",
-      "sizeBytes": 1890
+      "sizeBytes": 1709
     },
     {
       "source": "littlewhitebox",
@@ -2471,14 +2345,14 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/tasks/TavernTaskCard.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/apps/tasks/TavernTaskCard.vue",
       "extension": ".vue",
-      "sizeBytes": 1403
+      "sizeBytes": 1347
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/tasks/TavernTaskDetailView.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/apps/tasks/TavernTaskDetailView.vue",
       "extension": ".vue",
-      "sizeBytes": 5876
+      "sizeBytes": 5514
     },
     {
       "source": "littlewhitebox",
@@ -2499,14 +2373,14 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/tasks/TavernTaskOfferCard.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/apps/tasks/TavernTaskOfferCard.vue",
       "extension": ".vue",
-      "sizeBytes": 1582
+      "sizeBytes": 1355
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/tasks/TavernTaskOfferDetailView.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/apps/tasks/TavernTaskOfferDetailView.vue",
       "extension": ".vue",
-      "sizeBytes": 3250
+      "sizeBytes": 3110
     },
     {
       "source": "littlewhitebox",
@@ -2527,7 +2401,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/apps/tasks/TavernTasksApp.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/apps/tasks/TavernTasksApp.vue",
       "extension": ".vue",
-      "sizeBytes": 12782
+      "sizeBytes": 12723
     },
     {
       "source": "littlewhitebox",
@@ -2590,7 +2464,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/TavernPhoneDeviceFrame.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/TavernPhoneDeviceFrame.vue",
       "extension": ".vue",
-      "sizeBytes": 1061
+      "sizeBytes": 991
     },
     {
       "source": "littlewhitebox",
@@ -2604,7 +2478,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/components/phone-os/TavernPhoneOsOverlay.vue",
       "relativePath": "modules/tavern/app-src/components/phone-os/TavernPhoneOsOverlay.vue",
       "extension": ".vue",
-      "sizeBytes": 5699
+      "sizeBytes": 5639
     },
     {
       "source": "littlewhitebox",
@@ -2954,21 +2828,21 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/features/phone-os/apps/pet/tavern-pet-errors.ts",
       "relativePath": "modules/tavern/app-src/features/phone-os/apps/pet/tavern-pet-errors.ts",
       "extension": ".ts",
-      "sizeBytes": 3029
+      "sizeBytes": 3044
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/features/phone-os/apps/pet/tavern-pet-presentation.ts",
       "relativePath": "modules/tavern/app-src/features/phone-os/apps/pet/tavern-pet-presentation.ts",
       "extension": ".ts",
-      "sizeBytes": 3826
+      "sizeBytes": 5330
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/features/phone-os/apps/pet/useTavernPetController.ts",
       "relativePath": "modules/tavern/app-src/features/phone-os/apps/pet/useTavernPetController.ts",
       "extension": ".ts",
-      "sizeBytes": 38590
+      "sizeBytes": 30604
     },
     {
       "source": "littlewhitebox",
@@ -2996,21 +2870,21 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/features/phone-os/apps/tasks/tavern-task-context.ts",
       "relativePath": "modules/tavern/app-src/features/phone-os/apps/tasks/tavern-task-context.ts",
       "extension": ".ts",
-      "sizeBytes": 4239
+      "sizeBytes": 4305
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/features/phone-os/apps/tasks/tavern-task-presentation.ts",
       "relativePath": "modules/tavern/app-src/features/phone-os/apps/tasks/tavern-task-presentation.ts",
       "extension": ".ts",
-      "sizeBytes": 2262
+      "sizeBytes": 2690
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/features/phone-os/apps/tasks/tavern-task-prompts.ts",
       "relativePath": "modules/tavern/app-src/features/phone-os/apps/tasks/tavern-task-prompts.ts",
       "extension": ".ts",
-      "sizeBytes": 18547
+      "sizeBytes": 17340
     },
     {
       "source": "littlewhitebox",
@@ -3059,28 +2933,28 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/features/phone-os/phone-os-app-registry.ts",
       "relativePath": "modules/tavern/app-src/features/phone-os/phone-os-app-registry.ts",
       "extension": ".ts",
-      "sizeBytes": 5932
+      "sizeBytes": 5835
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/features/phone-os/phone-os-types.ts",
       "relativePath": "modules/tavern/app-src/features/phone-os/phone-os-types.ts",
       "extension": ".ts",
-      "sizeBytes": 2544
+      "sizeBytes": 2287
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/features/phone-os/useTavernPhoneController.ts",
       "relativePath": "modules/tavern/app-src/features/phone-os/useTavernPhoneController.ts",
       "extension": ".ts",
-      "sizeBytes": 6711
+      "sizeBytes": 6656
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/features/phone-os/useTavernPhoneDomainSync.ts",
       "relativePath": "modules/tavern/app-src/features/phone-os/useTavernPhoneDomainSync.ts",
       "extension": ".ts",
-      "sizeBytes": 18575
+      "sizeBytes": 18489
     },
     {
       "source": "littlewhitebox",
@@ -3206,7 +3080,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/runtime/provider.ts",
       "relativePath": "modules/tavern/app-src/runtime/provider.ts",
       "extension": ".ts",
-      "sizeBytes": 4410
+      "sizeBytes": 4414
     },
     {
       "source": "littlewhitebox",
@@ -3227,7 +3101,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/runtime/task-context.ts",
       "relativePath": "modules/tavern/app-src/runtime/task-context.ts",
       "extension": ".ts",
-      "sizeBytes": 9353
+      "sizeBytes": 8910
     },
     {
       "source": "littlewhitebox",
@@ -3416,14 +3290,14 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/styles/phone-os/pet.css",
       "relativePath": "modules/tavern/app-src/styles/phone-os/pet.css",
       "extension": ".css",
-      "sizeBytes": 31073
+      "sizeBytes": 22210
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/styles/phone-os/shell.css",
       "relativePath": "modules/tavern/app-src/styles/phone-os/shell.css",
       "extension": ".css",
-      "sizeBytes": 12790
+      "sizeBytes": 11569
     },
     {
       "source": "littlewhitebox",
@@ -3437,7 +3311,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/app-src/styles/phone-os/tasks.css",
       "relativePath": "modules/tavern/app-src/styles/phone-os/tasks.css",
       "extension": ".css",
-      "sizeBytes": 33311
+      "sizeBytes": 32218
     },
     {
       "source": "littlewhitebox",
@@ -3591,28 +3465,28 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/docs/pet-app-content-spec.md",
       "relativePath": "modules/tavern/docs/pet-app-content-spec.md",
       "extension": ".md",
-      "sizeBytes": 6836
+      "sizeBytes": 36048
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/docs/pet-app-handoff.md",
       "relativePath": "modules/tavern/docs/pet-app-handoff.md",
       "extension": ".md",
-      "sizeBytes": 3563
+      "sizeBytes": 5618
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/docs/pet-app-implementation-plan.md",
       "relativePath": "modules/tavern/docs/pet-app-implementation-plan.md",
       "extension": ".md",
-      "sizeBytes": 4556
+      "sizeBytes": 11819
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/docs/pet-app-target-design.md",
       "relativePath": "modules/tavern/docs/pet-app-target-design.md",
       "extension": ".md",
-      "sizeBytes": 8502
+      "sizeBytes": 11075
     },
     {
       "source": "littlewhitebox",
@@ -3815,7 +3689,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/assistant-presets.ts",
       "relativePath": "modules/tavern/shared/assistant-presets.ts",
       "extension": ".ts",
-      "sizeBytes": 46187
+      "sizeBytes": 45242
     },
     {
       "source": "littlewhitebox",
@@ -4088,28 +3962,28 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/pet/pet-chat.ts",
       "relativePath": "modules/tavern/shared/pet/pet-chat.ts",
       "extension": ".ts",
-      "sizeBytes": 25420
+      "sizeBytes": 23417
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/pet/pet-copy.ts",
       "relativePath": "modules/tavern/shared/pet/pet-copy.ts",
       "extension": ".ts",
-      "sizeBytes": 23648
+      "sizeBytes": 20393
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/pet/pet-events.ts",
       "relativePath": "modules/tavern/shared/pet/pet-events.ts",
       "extension": ".ts",
-      "sizeBytes": 12489
+      "sizeBytes": 12659
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/pet/pet-invariants.ts",
       "relativePath": "modules/tavern/shared/pet/pet-invariants.ts",
       "extension": ".ts",
-      "sizeBytes": 28092
+      "sizeBytes": 27440
     },
     {
       "source": "littlewhitebox",
@@ -4130,21 +4004,21 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/pet/pet-random.ts",
       "relativePath": "modules/tavern/shared/pet/pet-random.ts",
       "extension": ".ts",
-      "sizeBytes": 3815
+      "sizeBytes": 3916
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/pet/pet-rules.ts",
       "relativePath": "modules/tavern/shared/pet/pet-rules.ts",
       "extension": ".ts",
-      "sizeBytes": 20805
+      "sizeBytes": 26830
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/pet/pet-service.ts",
       "relativePath": "modules/tavern/shared/pet/pet-service.ts",
       "extension": ".ts",
-      "sizeBytes": 38852
+      "sizeBytes": 41483
     },
     {
       "source": "littlewhitebox",
@@ -4158,21 +4032,21 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/pet/pet-types.ts",
       "relativePath": "modules/tavern/shared/pet/pet-types.ts",
       "extension": ".ts",
-      "sizeBytes": 16208
+      "sizeBytes": 15578
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/pet/pet-view.ts",
       "relativePath": "modules/tavern/shared/pet/pet-view.ts",
       "extension": ".ts",
-      "sizeBytes": 6433
+      "sizeBytes": 5843
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/pet/README.md",
       "relativePath": "modules/tavern/shared/pet/README.md",
       "extension": ".md",
-      "sizeBytes": 2860
+      "sizeBytes": 4812
     },
     {
       "source": "littlewhitebox",
@@ -4214,7 +4088,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/session-db.ts",
       "relativePath": "modules/tavern/shared/session-db.ts",
       "extension": ".ts",
-      "sizeBytes": 229690
+      "sizeBytes": 229106
     },
     {
       "source": "littlewhitebox",
@@ -4323,13 +4197,6 @@
     },
     {
       "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/tasks/README.md",
-      "relativePath": "modules/tavern/shared/tasks/README.md",
-      "extension": ".md",
-      "sizeBytes": 2856
-    },
-    {
-      "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/tasks/task-board.ts",
       "relativePath": "modules/tavern/shared/tasks/task-board.ts",
       "extension": ".ts",
@@ -4347,7 +4214,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/tasks/task-service.ts",
       "relativePath": "modules/tavern/shared/tasks/task-service.ts",
       "extension": ".ts",
-      "sizeBytes": 54962
+      "sizeBytes": 54392
     },
     {
       "source": "littlewhitebox",
@@ -4361,14 +4228,14 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/tasks/task-tools.ts",
       "relativePath": "modules/tavern/shared/tasks/task-tools.ts",
       "extension": ".ts",
-      "sizeBytes": 8584
+      "sizeBytes": 7201
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/shared/tasks/task-types.ts",
       "relativePath": "modules/tavern/shared/tasks/task-types.ts",
       "extension": ".ts",
-      "sizeBytes": 30642
+      "sizeBytes": 24751
     },
     {
       "source": "littlewhitebox",
@@ -4410,7 +4277,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/tests/architecture-contracts.test.ts",
       "relativePath": "modules/tavern/tests/architecture-contracts.test.ts",
       "extension": ".ts",
-      "sizeBytes": 316213
+      "sizeBytes": 315971
     },
     {
       "source": "littlewhitebox",
@@ -4487,7 +4354,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/tests/character-archive.test.ts",
       "relativePath": "modules/tavern/tests/character-archive.test.ts",
       "extension": ".ts",
-      "sizeBytes": 86484
+      "sizeBytes": 86317
     },
     {
       "source": "littlewhitebox",
@@ -4634,35 +4501,35 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/tests/pet-controller.test.ts",
       "relativePath": "modules/tavern/tests/pet-controller.test.ts",
       "extension": ".ts",
-      "sizeBytes": 21659
+      "sizeBytes": 33501
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/tests/pet-service.test.ts",
       "relativePath": "modules/tavern/tests/pet-service.test.ts",
       "extension": ".ts",
-      "sizeBytes": 20803
+      "sizeBytes": 33425
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/tests/pet-test-helpers.ts",
       "relativePath": "modules/tavern/tests/pet-test-helpers.ts",
       "extension": ".ts",
-      "sizeBytes": 5007
+      "sizeBytes": 5074
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/tests/pet.test.ts",
       "relativePath": "modules/tavern/tests/pet.test.ts",
       "extension": ".ts",
-      "sizeBytes": 14747
+      "sizeBytes": 21640
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/tests/phone-domain-sync.test.ts",
       "relativePath": "modules/tavern/tests/phone-domain-sync.test.ts",
       "extension": ".ts",
-      "sizeBytes": 23152
+      "sizeBytes": 22841
     },
     {
       "source": "littlewhitebox",
@@ -4676,7 +4543,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/tests/run-turn.test.ts",
       "relativePath": "modules/tavern/tests/run-turn.test.ts",
       "extension": ".ts",
-      "sizeBytes": 276468
+      "sizeBytes": 275456
     },
     {
       "source": "littlewhitebox",
@@ -4711,7 +4578,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/tests/session-db.test.ts",
       "relativePath": "modules/tavern/tests/session-db.test.ts",
       "extension": ".ts",
-      "sizeBytes": 408860
+      "sizeBytes": 408713
     },
     {
       "source": "littlewhitebox",
@@ -4767,14 +4634,14 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/tests/tasks-controller.test.ts",
       "relativePath": "modules/tavern/tests/tasks-controller.test.ts",
       "extension": ".ts",
-      "sizeBytes": 11669
+      "sizeBytes": 11424
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/tavern/tests/tasks.test.ts",
       "relativePath": "modules/tavern/tests/tasks.test.ts",
       "extension": ".ts",
-      "sizeBytes": 62378
+      "sizeBytes": 58609
     },
     {
       "source": "littlewhitebox",
@@ -4809,7 +4676,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/template-editor/template-editor.js",
       "relativePath": "modules/template-editor/template-editor.js",
       "extension": ".js",
-      "sizeBytes": 60449
+      "sizeBytes": 59870
     },
     {
       "source": "littlewhitebox",
@@ -4960,13 +4827,6 @@
     },
     {
       "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/variables/tests/variables-panel-runtime.test.js",
-      "relativePath": "modules/variables/tests/variables-panel-runtime.test.js",
-      "extension": ".js",
-      "sizeBytes": 2275
-    },
-    {
-      "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/variables/var-commands.js",
       "relativePath": "modules/variables/var-commands.js",
       "extension": ".js",
@@ -4988,24 +4848,17 @@
     },
     {
       "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/variables/variables-panel-runtime.js",
-      "relativePath": "modules/variables/variables-panel-runtime.js",
-      "extension": ".js",
-      "sizeBytes": 1372
-    },
-    {
-      "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/modules/variables/variables-panel.js",
       "relativePath": "modules/variables/variables-panel.js",
       "extension": ".js",
-      "sizeBytes": 37336
+      "sizeBytes": 37733
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/package.json",
       "relativePath": "package.json",
       "extension": ".json",
-      "sizeBytes": 5511
+      "sizeBytes": 4813
     },
     {
       "source": "littlewhitebox",
@@ -5019,7 +4872,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/scripts/build-assistant-file-manifest.mjs",
       "relativePath": "scripts/build-assistant-file-manifest.mjs",
       "extension": ".mjs",
-      "sizeBytes": 5082
+      "sizeBytes": 4072
     },
     {
       "source": "littlewhitebox",
@@ -5068,21 +4921,14 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/scripts/story-summary-replay/entry.mjs",
       "relativePath": "scripts/story-summary-replay/entry.mjs",
       "extension": ".mjs",
-      "sizeBytes": 61045
+      "sizeBytes": 50264
     },
     {
       "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/scripts/story-summary-replay/shims/extensions.js",
       "relativePath": "scripts/story-summary-replay/shims/extensions.js",
       "extension": ".js",
-      "sizeBytes": 1030
-    },
-    {
-      "source": "littlewhitebox",
-      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/scripts/story-summary-replay/shims/openai.js",
-      "relativePath": "scripts/story-summary-replay/shims/openai.js",
-      "extension": ".js",
-      "sizeBytes": 659
+      "sizeBytes": 715
     },
     {
       "source": "littlewhitebox",
@@ -5100,10 +4946,38 @@
     },
     {
       "source": "littlewhitebox",
+      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/scripts/story-summary-replay-output/story-summary-replay-baseline.json",
+      "relativePath": "scripts/story-summary-replay-output/story-summary-replay-baseline.json",
+      "extension": ".json",
+      "sizeBytes": 22106
+    },
+    {
+      "source": "littlewhitebox",
+      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/scripts/story-summary-replay-output/story-summary-replay-report.json",
+      "relativePath": "scripts/story-summary-replay-output/story-summary-replay-report.json",
+      "extension": ".json",
+      "sizeBytes": 20060
+    },
+    {
+      "source": "littlewhitebox",
+      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/scripts/story-summary-replay-output/story-summary-replay-report.md",
+      "relativePath": "scripts/story-summary-replay-output/story-summary-replay-report.md",
+      "extension": ".md",
+      "sizeBytes": 1718
+    },
+    {
+      "source": "littlewhitebox",
+      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/scripts/story-summary-replay-output/story-summary-replay-snapshot.json",
+      "relativePath": "scripts/story-summary-replay-output/story-summary-replay-snapshot.json",
+      "extension": ".json",
+      "sizeBytes": 59226122
+    },
+    {
+      "source": "littlewhitebox",
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/scripts/story-summary-replay-runner.mjs",
       "relativePath": "scripts/story-summary-replay-runner.mjs",
       "extension": ".mjs",
-      "sizeBytes": 7957
+      "sizeBytes": 4370
     },
     {
       "source": "littlewhitebox",
@@ -5111,6 +4985,20 @@
       "relativePath": "scripts/story-summary-replay.config.example.json",
       "extension": ".json",
       "sizeBytes": 1280
+    },
+    {
+      "source": "littlewhitebox",
+      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/scripts/story-summary-replay.local.json",
+      "relativePath": "scripts/story-summary-replay.local.json",
+      "extension": ".json",
+      "sizeBytes": 1592
+    },
+    {
+      "source": "littlewhitebox",
+      "publicPath": "scripts/extensions/third-party/LittleWhiteBox/scripts/story-summary-replay.samples/mock-sample.json",
+      "relativePath": "scripts/story-summary-replay.samples/mock-sample.json",
+      "extension": ".json",
+      "sizeBytes": 666
     },
     {
       "source": "littlewhitebox",
@@ -5166,7 +5054,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/settings.html",
       "relativePath": "settings.html",
       "extension": ".html",
-      "sizeBytes": 39583
+      "sizeBytes": 39642
     },
     {
       "source": "littlewhitebox",
@@ -5236,7 +5124,7 @@
       "publicPath": "scripts/extensions/third-party/LittleWhiteBox/widgets/button-collapse.js",
       "relativePath": "widgets/button-collapse.js",
       "extension": ".js",
-      "sizeBytes": 9981
+      "sizeBytes": 9299
     },
     {
       "source": "littlewhitebox",
@@ -6644,6 +6532,34 @@
       "relativePath": "scripts/extensions/stable-diffusion/style.css",
       "extension": ".css",
       "sizeBytes": 1696
+    },
+    {
+      "source": "sillytavern-public",
+      "publicPath": "scripts/extensions/third-party/ST-Chat-Jumper/index.js",
+      "relativePath": "scripts/extensions/third-party/ST-Chat-Jumper/index.js",
+      "extension": ".js",
+      "sizeBytes": 212991
+    },
+    {
+      "source": "sillytavern-public",
+      "publicPath": "scripts/extensions/third-party/ST-Chat-Jumper/manifest.json",
+      "relativePath": "scripts/extensions/third-party/ST-Chat-Jumper/manifest.json",
+      "extension": ".json",
+      "sizeBytes": 422
+    },
+    {
+      "source": "sillytavern-public",
+      "publicPath": "scripts/extensions/third-party/ST-Chat-Jumper/README.md",
+      "relativePath": "scripts/extensions/third-party/ST-Chat-Jumper/README.md",
+      "extension": ".md",
+      "sizeBytes": 3629
+    },
+    {
+      "source": "sillytavern-public",
+      "publicPath": "scripts/extensions/third-party/ST-Chat-Jumper/style.css",
+      "relativePath": "scripts/extensions/third-party/ST-Chat-Jumper/style.css",
+      "extension": ".css",
+      "sizeBytes": 56487
     },
     {
       "source": "sillytavern-public",

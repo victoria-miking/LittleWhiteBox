@@ -5,14 +5,7 @@ import { OpenAIResponsesAdapter } from './adapters/openai-responses.js';
 import { SillyTavernClaudeAdapter } from './adapters/sillytavern-claude.js';
 import { SillyTavernGoogleAdapter } from './adapters/sillytavern-google.js';
 import { SillyTavernOpenAICompatibleAdapter } from './adapters/sillytavern-openai-compatible.js';
-import {
-    DEFAULT_PRESET_NAME,
-    buildDefaultPreset,
-    cloneDefaultModelConfigs,
-    normalizeAgentConfig,
-    normalizeMaxTokens,
-    normalizePresetName,
-} from './config.js';
+import { DEFAULT_PRESET_NAME, buildDefaultPreset, cloneDefaultModelConfigs, normalizeAgentConfig, normalizePresetName } from './config.js';
 import { normalizeTavilyApiKey, normalizeTavilyBaseUrl } from './tavily-search.js';
 
 export const AGENT_REQUEST_TIMEOUT_MS = 15 * 60 * 1000;
@@ -38,6 +31,10 @@ export const PROVIDER_OPTIONS = Object.freeze([
     { value: 'google', label: 'Google AI' },
 ]);
 
+function isAnthropicProvider(provider = '') {
+    return provider === 'anthropic' || provider === 'sillytavern-claude';
+}
+
 function isSillyTavernProvider(provider = '') {
     return provider === 'sillytavern-openai-compatible'
         || provider === 'sillytavern-claude'
@@ -48,10 +45,10 @@ export function normalizeReasoningEffort(value = '') {
     return REASONING_EFFORT_OPTIONS.some((item) => item.value === value) ? value : 'medium';
 }
 
-export function normalizeTemperature(value, fallback = 1) {
+export function normalizeTemperature(value, fallback = 0.2) {
     const raw = typeof value === 'string' && !value.trim() ? fallback : value;
     const numeric = Number(raw);
-    if (!Number.isFinite(numeric)) return normalizeTemperature(fallback, 1);
+    if (!Number.isFinite(numeric)) return normalizeTemperature(fallback, 0.2);
     return Math.max(0, Math.min(2, numeric));
 }
 
@@ -61,7 +58,7 @@ export function shouldSendTemperature(providerConfig = {}) {
 
 export function resolveTemperature(providerConfig = {}) {
     return shouldSendTemperature(providerConfig)
-        ? normalizeTemperature(providerConfig.temperature, 1)
+        ? normalizeTemperature(providerConfig.temperature, 0.2)
         : undefined;
 }
 
@@ -98,7 +95,7 @@ export function resolveActiveProviderConfig(configValue = {}, options = {}) {
             tavilyBaseUrl: normalizeTavilyBaseUrl(config.tavilyBaseUrl),
             temperature: resolveTemperature(providerConfig),
             sendTemperature: shouldSendTemperature(providerConfig),
-            maxTokens: normalizeMaxTokens(providerConfig.maxTokens),
+            maxTokens: isAnthropicProvider(provider) ? 32000 : null,
             timeoutMs: Number(options.timeoutMs) || AGENT_REQUEST_TIMEOUT_MS,
             toolMode: providerConfig.toolMode || 'native',
             reasoningEnabled: Boolean(providerConfig.reasoningEnabled),
@@ -128,7 +125,7 @@ export function resolveActiveProviderConfig(configValue = {}, options = {}) {
         tavilyBaseUrl: normalizeTavilyBaseUrl(config.tavilyBaseUrl),
         temperature: resolveTemperature(providerConfig),
         sendTemperature: shouldSendTemperature(providerConfig),
-        maxTokens: normalizeMaxTokens(providerConfig.maxTokens),
+        maxTokens: isAnthropicProvider(provider) ? 32000 : null,
         timeoutMs: Number(options.timeoutMs) || AGENT_REQUEST_TIMEOUT_MS,
         toolMode: providerConfig.toolMode || 'native',
         reasoningEnabled: Boolean(providerConfig.reasoningEnabled),

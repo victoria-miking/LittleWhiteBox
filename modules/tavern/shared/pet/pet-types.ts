@@ -2,45 +2,94 @@ import type { TavernExpectedPhoneBoundary } from '../phone-boundary';
 
 export const TAVERN_PET_COMPANION_ID = 'companion' as const;
 
-export const TAVERN_PET_PHASES = ['egg', 'juvenile', 'adult'] as const;
+export const TAVERN_PET_PHASES = ['luring', 'egg', 'juvenile', 'adult'] as const;
 export type TavernPetPhase = typeof TAVERN_PET_PHASES[number];
 
 export const TAVERN_PET_EMOTIONS = [
-    'calm', 'happy', 'aggrieved', 'resentful', 'excited', 'bored',
+    'calm',
+    'happy',
+    'aggrieved',
+    'resentful',
+    'excited',
+    'bored',
 ] as const;
 export type TavernPetEmotion = typeof TAVERN_PET_EMOTIONS[number];
 
 export const TAVERN_PET_PERSONA_IDS = [
-    'sunlet', 'rain-courier', 'ledger-keeper', 'under-bed-hoarder', 'wanderer',
-    'lone-blade', 'merry-bandit', 'abyss-tenant', 'blank',
+    'sunlet',
+    'rain-courier',
+    'ledger-keeper',
+    'under-bed-hoarder',
+    'wanderer',
+    'lone-blade',
+    'merry-bandit',
+    'abyss-tenant',
+    'blank',
 ] as const;
 export type TavernPetPersonaId = typeof TAVERN_PET_PERSONA_IDS[number];
 
 export const TAVERN_PET_CURIO_IDS = [
-    'bottle-cap', 'glass-bead', 'paper-star', 'rusted-key', 'old-ticket', 'dry-flower',
+    'bottle-cap',
+    'glass-bead',
+    'paper-star',
+    'rusted-key',
+    'old-ticket',
+    'dry-flower',
 ] as const;
 export type TavernPetCurioId = typeof TAVERN_PET_CURIO_IDS[number];
 
-export const TAVERN_PET_INTERACTION_IDS = ['lure', 'feed', 'toy', 'chat'] as const;
+export const TAVERN_PET_INTERACTION_IDS = [
+    'lure',
+    'feed',
+    'tap-shell',
+    'play-bgm',
+    'pat',
+    'hit',
+    'toy',
+    'chat',
+    'wake',
+] as const;
 export type TavernPetInteractionId = typeof TAVERN_PET_INTERACTION_IDS[number];
-export type TavernPetGiftId = Extract<TavernPetInteractionId, 'feed' | 'toy'>;
 
 export const TAVERN_PET_INTERFERENCE_EVENT_IDS = [
-    'nibble-sleeve', 'tip-over-cup', 'avert-mishap', 'brief-glimpse',
+    'nibble-sleeve',
+    'tip-over-cup',
+    'avert-mishap',
+    'brief-glimpse',
 ] as const;
 export type TavernPetInterferenceEventId = typeof TAVERN_PET_INTERFERENCE_EVENT_IDS[number];
 
 export const TAVERN_PET_EVENT_IDS = [
-    'arrival', 'hatch', 'adulthood', 'repattern',
-    'watch-cursor', 'sleep-on-status', 'count-wallet', 'mimic-typing', 'hum-static',
-    'guard-curios', 'stare-at-door', 'fake-alert',
-    'steal-small', 'steal-large', 'hoard-coins', 'spam-dots', 'bite-notification',
-    'scratch-glass', 'hide-in-corner', 'beg-for-food',
-    'find-coins', 'offer-treasure', 'bring-curio', 'return-cache', 'pocket-change',
+    'arrival',
+    'hatch',
+    'adulthood',
+    'repattern',
+    'watch-cursor',
+    'sleep-on-status',
+    'count-wallet',
+    'mimic-typing',
+    'hum-static',
+    'guard-curios',
+    'stare-at-door',
+    'fake-alert',
+    'steal-small',
+    'steal-large',
+    'hoard-coins',
+    'spam-dots',
+    'bite-notification',
+    'scratch-glass',
+    'hide-in-corner',
+    'beg-for-food',
+    'find-coins',
+    'offer-treasure',
+    'bring-curio',
+    'return-cache',
+    'pocket-change',
     'leave-dry-flower',
     ...TAVERN_PET_INTERFERENCE_EVENT_IDS,
 ] as const;
 export type TavernPetEventId = typeof TAVERN_PET_EVENT_IDS[number];
+
 export type TavernPetMilestoneId = 'arrival' | 'hatch' | 'adulthood' | 'repattern';
 export type TavernPetJournalEventId = Exclude<TavernPetEventId, TavernPetMilestoneId>;
 export type TavernPetNonInterferenceEventId = Exclude<
@@ -48,50 +97,42 @@ export type TavernPetNonInterferenceEventId = Exclude<
     TavernPetInterferenceEventId
 >;
 
-export const TAVERN_PET_MOMENT_IDS = [
-    'glass-hand', 'bottle-cap', 'quiet-corner',
-] as const;
-export type TavernPetMomentId = typeof TAVERN_PET_MOMENT_IDS[number];
-export const TAVERN_PET_MOMENT_TRAITS = ['closeness', 'sharing', 'tempo'] as const;
-export type TavernPetMomentTrait = typeof TAVERN_PET_MOMENT_TRAITS[number];
-export type TavernPetMomentChoiceId =
-    | 'touch-glass' | 'wait-nearby' | 'leave-space'
-    | 'roll-together' | 'keep-it' | 'look-away'
-    | 'tap-back' | 'leave-a-light' | 'let-it-be';
-export type TavernPetMomentResolutionId = TavernPetMomentChoiceId | 'skip';
-
 export function isTavernPetInterferenceEventId(value: unknown): value is TavernPetInterferenceEventId {
     return typeof value === 'string'
         && TAVERN_PET_INTERFERENCE_EVENT_IDS.some((eventId) => eventId === value);
-}
-
-export function isTavernPetMomentId(value: unknown): value is TavernPetMomentId {
-    return typeof value === 'string' && TAVERN_PET_MOMENT_IDS.some((id) => id === value);
-}
-
-export function isTavernPetMomentChoiceId(value: unknown): value is TavernPetMomentChoiceId {
-    return value === 'touch-glass' || value === 'wait-nearby' || value === 'leave-space'
-        || value === 'roll-together' || value === 'keep-it' || value === 'look-away'
-        || value === 'tap-back' || value === 'leave-a-light' || value === 'let-it-be';
 }
 
 export type TavernPetEventCategory = 'ambient' | 'mischief' | 'foray' | 'interference' | 'milestone';
 export type TavernPetMotion = 'none' | 'shake' | 'bounce' | 'turn-away' | 'hide' | 'approach' | 'stare';
 export type TavernPetFaceKey = 'default' | 'happy' | 'excited' | 'aggrieved' | 'wary' | 'resentful' | 'sleepy' | 'thinking';
 
-export interface TavernPetTraits {
-    closeness: number;
-    sharing: number;
-    tempo: number;
+export interface TavernPetAxes {
+    tameness: number;
+    generosity: number;
+    brightness: number;
 }
 
 export interface TavernPetOrigin {
     specimenNumber: number;
-    birthBias: TavernPetTraits;
+    arrivalAfterTurns: number;
+    birthBias: TavernPetAxes;
 }
 
-export interface TavernPetMoment {
-    id: TavernPetMomentId;
+export interface TavernPetIncubationLedger {
+    feedCount: number;
+    tapCount: number;
+    bgmCount: number;
+}
+
+export interface TavernPetInteractionWindow {
+    petTurn: number;
+    feedCount: number;
+    tapCount: number;
+    bgmCount: number;
+    patCount: number;
+    annoyCount: number;
+    chatCount: number;
+    interactionCount: number;
 }
 
 export interface TavernPetChatRound {
@@ -102,14 +143,17 @@ export interface TavernPetChatRound {
 export interface TavernPetChatMemory {
     summary: string;
     recent: TavernPetChatRound[];
-    moments: string[];
 }
 
 export interface TavernPetLifetimeStats {
     feedCount: number;
+    tapCount: number;
+    bgmCount: number;
+    patCount: number;
+    hitCount: number;
     toyCount: number;
     chatCount: number;
-    momentCount: number;
+    dormantCount: number;
     stolenTotal: number;
     giftedTotal: number;
 }
@@ -119,7 +163,7 @@ export interface TavernPetEvolutionRequest {
     milestoneId: 'adulthood' | 'repattern';
     personaId: TavernPetPersonaId;
     previousPersonaId?: TavernPetPersonaId;
-    traits: TavernPetTraits;
+    axes: TavernPetAxes;
     stats: TavernPetLifetimeStats;
     sourceSessionId: string;
     sourceTurn: number;
@@ -130,23 +174,28 @@ export interface TavernPetEvolutionRequest {
 export interface TavernPetState {
     petTurn: number;
     phase: TavernPetPhase;
+    dormant: boolean;
     origin: TavernPetOrigin;
-    traits: TavernPetTraits;
-    appetite: number;
+    phaseTurnCount: number;
+    axes: TavernPetAxes;
+    satiety: number;
     emotion: TavernPetEmotion;
     emotionRemainingTurns: number;
     personaId?: TavernPetPersonaId;
     petName?: string;
-    pendingMoment?: TavernPetMoment;
-    nextMomentPetTurn: number;
-    lastMeaningfulInteractionPetTurn: number;
-    lastEvolutionPetTurn?: number;
-    chatMemory: TavernPetChatMemory;
     nestCoins: number;
     curios: TavernPetCurioId[];
+    incubation?: TavernPetIncubationLedger;
+    interactionWindow: TavernPetInteractionWindow;
+    idleTurns: number;
+    beggingDeadlinePetTurn?: number;
+    toyCooldownTurns: number;
     eventCooldowns: Partial<Record<TavernPetEventId, number>>;
     interferenceEnabled: boolean;
+    interferenceGateTurns: number;
+    lastEvolutionActiveTurn?: number;
     pendingEvolution?: TavernPetEvolutionRequest;
+    chatMemory: TavernPetChatMemory;
     lifetimeStats: TavernPetLifetimeStats;
 }
 
@@ -161,10 +210,6 @@ export interface TavernPetDialogueProfile {
     boostedEventIds: readonly TavernPetEventId[];
 }
 
-export type TavernPetChatProfile =
-    | { phase: 'juvenile'; personaId?: never }
-    | { phase: 'adult'; personaId: TavernPetPersonaId };
-
 export interface TavernPetCurioSpec {
     id: TavernPetCurioId;
     label: string;
@@ -172,23 +217,29 @@ export interface TavernPetCurioSpec {
     sourceEventId: 'bring-curio' | 'leave-dry-flower';
 }
 
+export interface TavernPetInteractionSpec {
+    id: TavernPetInteractionId;
+    cost: number;
+    phases: Array<'undiscovered' | TavernPetPhase>;
+}
+
 export type TavernPetEventPredicateId =
     | 'always'
-    | 'appetite-full'
+    | 'rested-and-full'
     | 'wallet-watcher'
     | 'has-chat-history'
     | 'bright-emotion'
     | 'has-curio'
-    | 'quiet-eight-turns'
+    | 'idle-three-turns'
     | 'adult-only'
     | 'small-theft'
     | 'large-theft'
-    | 'collector-persona'
-    | 'solitary-preference'
+    | 'hoarder-persona'
+    | 'wild-axis'
     | 'hurt-emotion'
-    | 'appetite-low'
+    | 'can-beg'
     | 'adult-bright-emotion'
-    | 'sharing-and-happy'
+    | 'generous-and-happy'
     | 'missing-regular-curio'
     | 'can-return-cache'
     | 'recent-spend-ten'
@@ -200,6 +251,7 @@ export type TavernPetEventPredicateId =
 export type TavernPetEventEffect =
     | { kind: 'ambient' }
     | { kind: 'emotion'; emotion: TavernPetEmotion }
+    | { kind: 'beg' }
     | { kind: 'steal'; minimum: number; maximum: number; ledgerKind: 'pet_steal' }
     | { kind: 'hoard'; amount: 10; ledgerKind: 'pet_hoard' }
     | { kind: 'gift'; minimum: number; maximum: number; ledgerKind: 'pet_find' | 'pet_gift' }
@@ -248,25 +300,44 @@ export interface TavernPetCoinEffect {
 
 export type TavernPetJournalDetail =
     | {
-        kind: 'event'; eventId: TavernPetInterferenceEventId; renderedText: string;
-        face: string; motion: TavernPetMotion; injectedText: string;
+        kind: 'event';
+        eventId: TavernPetInterferenceEventId;
+        renderedText: string;
+        face: string;
+        motion: TavernPetMotion;
+        injectedText: string;
     }
     | {
-        kind: 'event'; eventId: TavernPetNonInterferenceEventId; renderedText: string;
-        face: string; motion: TavernPetMotion; injectedText?: never;
+        kind: 'event';
+        eventId: TavernPetNonInterferenceEventId;
+        renderedText: string;
+        face: string;
+        motion: TavernPetMotion;
+        injectedText?: never;
     }
     | {
-        kind: 'milestone'; milestoneId: TavernPetMilestoneId; renderedText: string;
-        motion: TavernPetMotion; milestonePetTurn: number; milestoneSourceAnchorOrder: number;
-        personaId?: TavernPetPersonaId; verdict?: string;
+        kind: 'milestone';
+        milestoneId: TavernPetMilestoneId;
+        renderedText: string;
+        motion: TavernPetMotion;
+        milestonePetTurn: number;
+        milestoneSourceAnchorOrder: number;
+        personaId?: TavernPetPersonaId;
+        verdict?: string;
     }
     | {
-        kind: 'chat'; playerText: string; petText: string; face: string;
-        motion: TavernPetMotion; murmur?: string;
+        kind: 'chat';
+        playerText: string;
+        petText: string;
+        face: string;
+        motion: TavernPetMotion;
+        murmur?: string;
     }
     | {
-        kind: 'moment'; momentId: TavernPetMomentId; choiceId: TavernPetMomentResolutionId;
-        renderedText: string; motion: TavernPetMotion;
+        kind: 'status';
+        status: 'dormant' | 'woke';
+        renderedText: string;
+        motion: TavernPetMotion;
     };
 
 export interface TavernPetJournalDraft {
@@ -299,14 +370,27 @@ export interface TavernPetChatResponse {
 
 export type TavernPetStateAction =
     | { kind: 'lure'; origin: TavernPetOrigin }
-    | { kind: 'interact'; interactionId: TavernPetGiftId }
+    | { kind: 'interact'; interactionId: Exclude<TavernPetInteractionId, 'lure' | 'chat' | 'wake'> }
+    | { kind: 'wake' }
     | { kind: 'rename'; petName?: string }
     | { kind: 'toggle-interference'; enabled: boolean }
-    | { kind: 'turn-advance'; context: TavernPetTurnContext; outcome: TavernPetTurnOutcome }
-    | { kind: 'chat'; playerText: string; response: TavernPetChatResponse }
-    | { kind: 'resolve-moment'; momentId: TavernPetMomentId; choiceId: TavernPetMomentChoiceId }
-    | { kind: 'skip-moment'; momentId: TavernPetMomentId }
-    | { kind: 'resolve-evolution'; requestId: string; verdict: string; usedFallback: boolean };
+    | {
+        kind: 'turn-advance';
+        context: TavernPetTurnContext;
+        outcome: TavernPetTurnOutcome;
+    }
+    | {
+        kind: 'chat';
+        playerText: string;
+        response: TavernPetChatResponse;
+        appliedAxes: boolean;
+    }
+    | {
+        kind: 'resolve-evolution';
+        requestId: string;
+        verdict: string;
+        usedFallback: boolean;
+    };
 
 export interface TavernPetCompanionRecord {
     id: typeof TAVERN_PET_COMPANION_ID;
@@ -341,12 +425,6 @@ export interface TavernPetJournalRecord {
     createdAt: number;
 }
 
-export interface TavernPetMomentView {
-    id: TavernPetMomentId;
-    prompt: string;
-    choices: Array<{ id: TavernPetMomentChoiceId; label: string }>;
-}
-
 export interface TavernPetAvailableAction {
     id: TavernPetInteractionId;
     cost: number;
@@ -354,30 +432,32 @@ export interface TavernPetAvailableAction {
     reason: string;
 }
 
-export interface TavernPetGuidanceView {
-    kind: 'arrival' | 'egg' | 'first-chat' | 'moment' | 'hunger';
-    text: string;
-}
-
 export interface TavernPetView {
     revision: number;
     versionId: string;
     existence: 'undiscovered' | 'present';
     phase?: TavernPetPhase;
+    dormant: boolean;
     displayName: string;
     specimenLabel?: string;
     currentFace?: string;
     persona?: { id: TavernPetPersonaId; displayName: string };
-    appetiteLabel?: string;
+    satietyPercent?: number;
     emotionLabel?: string;
     phaseProgressLabel?: string;
-    guidance?: TavernPetGuidanceView;
     storageMb?: number;
-    pendingMoment?: TavernPetMomentView;
     pendingEvolution: boolean;
     interferenceEnabled: boolean;
-    nest: { coins: number; curios: Array<{ id: TavernPetCurioId; label: string; description: string }> };
-    latestUtterance?: { face: string; text: string; motion: TavernPetMotion; murmur?: string };
+    nest: {
+        coins: number;
+        curios: Array<{ id: TavernPetCurioId; label: string; description: string }>;
+    };
+    latestUtterance?: {
+        face: string;
+        text: string;
+        motion: TavernPetMotion;
+        murmur?: string;
+    };
     availableActions: TavernPetAvailableAction[];
 }
 
@@ -419,29 +499,33 @@ export interface TavernPetMutationBoundary {
 }
 
 export interface LureTavernPetInput extends TavernPetMutationBoundary {}
+
 export interface InteractWithTavernPetInput extends TavernPetMutationBoundary {
-    interactionId: TavernPetGiftId;
+    interactionId: Exclude<TavernPetInteractionId, 'lure' | 'chat' | 'wake'>;
 }
-export interface RenameTavernPetInput extends TavernPetMutationBoundary { petName?: string }
-export interface SetTavernPetInterferenceInput extends TavernPetMutationBoundary { enabled: boolean }
+
+export interface WakeTavernPetInput extends TavernPetMutationBoundary {}
+
+export interface RenameTavernPetInput extends TavernPetMutationBoundary {
+    petName?: string;
+}
+
+export interface SetTavernPetInterferenceInput extends TavernPetMutationBoundary {
+    enabled: boolean;
+}
+
 export interface CommitTavernPetChatResponseInput extends TavernPetMutationBoundary {
     playerText: string;
     response: TavernPetChatResponse;
-    responseProfile: TavernPetChatProfile;
 }
-export interface ResolveTavernPetMomentInput extends TavernPetMutationBoundary {
-    momentId: TavernPetMomentId;
-    choiceId: TavernPetMomentChoiceId;
-}
-export interface SkipTavernPetMomentInput extends TavernPetMutationBoundary {
-    momentId: TavernPetMomentId;
-}
+
 export interface ResolveTavernPetEvolutionInput {
     sessionId: string;
     requestId: string;
     verdict: string;
     usedFallback: boolean;
 }
+
 export interface LetTavernPetLeaveInput {
     sessionId: string;
     boundary: TavernExpectedPhoneBoundary;
@@ -455,14 +539,32 @@ export interface TavernPetPrivateChatSnapshot {
 }
 
 export type TavernPetErrorCode =
-    | 'pet_session_required' | 'pet_session_missing' | 'pet_action_required'
-    | 'pet_action_conflict' | 'pet_revision_invalid' | 'pet_revision_conflict'
-    | 'pet_version_id_invalid' | 'pet_version_conflict' | 'pet_anchor_order_invalid'
-    | 'pet_turn_invalid' | 'pet_state_missing' | 'pet_state_exists' | 'pet_phase_invalid'
-    | 'pet_interaction_invalid' | 'pet_interaction_unavailable' | 'pet_name_invalid'
-    | 'pet_chat_invalid' | 'pet_chat_unavailable' | 'pet_moment_stale'
-    | 'pet_evolution_stale' | 'pet_random_invalid' | 'pet_random_exhausted'
-    | 'pet_state_invalid' | 'pet_journal_invalid' | 'pet_history_invalid';
+    | 'pet_session_required'
+    | 'pet_session_missing'
+    | 'pet_action_required'
+    | 'pet_action_conflict'
+    | 'pet_revision_invalid'
+    | 'pet_revision_conflict'
+    | 'pet_version_id_invalid'
+    | 'pet_version_conflict'
+    | 'pet_anchor_order_invalid'
+    | 'pet_turn_invalid'
+    | 'pet_state_missing'
+    | 'pet_state_exists'
+    | 'pet_phase_invalid'
+    | 'pet_dormant'
+    | 'pet_not_dormant'
+    | 'pet_interaction_invalid'
+    | 'pet_interaction_unavailable'
+    | 'pet_name_invalid'
+    | 'pet_chat_invalid'
+    | 'pet_chat_unavailable'
+    | 'pet_evolution_stale'
+    | 'pet_random_invalid'
+    | 'pet_random_exhausted'
+    | 'pet_state_invalid'
+    | 'pet_journal_invalid'
+    | 'pet_history_invalid';
 
 export const TAVERN_PET_INSUFFICIENT_FUNDS_REASON = 'insufficient-funds';
 

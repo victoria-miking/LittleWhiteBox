@@ -4,6 +4,7 @@ import type {
     TavernTaskVersionRecord,
 } from '../../../../../shared/tasks/task-types';
 import {
+    tavernTaskCounterparty,
     tavernTaskDirectionLabel,
     tavernTaskGradeLabel,
     tavernTaskRewardLabel,
@@ -73,13 +74,9 @@ const emit = defineEmits<{
             <span>报酬</span>
             <strong>{{ tavernTaskRewardLabel(task.reward) }} <i>◈</i></strong>
           </div>
-          <div v-if="task.issuer.kind === 'player'">
-            <span>执行人</span>
-            <strong>{{ task.assignee?.name || '尚未选定执行人' }}</strong>
-          </div>
-          <div v-else>
-            <span>地点</span>
-            <strong>{{ task.location }}</strong>
+          <div>
+            <span>委托方</span>
+            <strong>{{ tavernTaskCounterparty(task) }}</strong>
           </div>
         </div>
         <dl class="tavern-task-formal-fields">
@@ -88,12 +85,6 @@ const emit = defineEmits<{
             <dt>要求</dt><dd>{{ task.requirements }}</dd>
           </div>
           <div><dt>地点</dt><dd>{{ task.location }}</dd></div>
-          <div v-if="task.posture">
-            <dt>介入</dt><dd>{{ task.posture }}</dd>
-          </div>
-          <div v-if="task.timing">
-            <dt>时机</dt><dd>{{ task.timing }}</dd>
-          </div>
           <div v-if="task.risk">
             <dt>风险</dt><dd>{{ task.risk }}</dd>
           </div>

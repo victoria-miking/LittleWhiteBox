@@ -12,17 +12,13 @@ import {
 } from './pet-personas';
 import {
     TAVERN_PET_EMOTIONS,
-    TAVERN_PET_PERSONA_IDS,
-    type TavernPetChatProfile,
     type TavernPetJournalRecord,
+    type TavernPetAxes,
     type TavernPetChatResponse,
-    type TavernPetDialogueProfile,
     type TavernPetEmotion,
     type TavernPetEvolutionRequest,
-    type TavernPetFaceKey,
     type TavernPetMotion,
     type TavernPetState,
-    type TavernPetTraits,
     throwTavernPetError,
 } from './pet-types';
 
@@ -109,45 +105,43 @@ function axisDirection(
     return labels.strongNegative;
 }
 
-export function projectTavernPetTraitsToProse(traits: TavernPetTraits): string {
-    const closeness = axisDirection(traits.closeness, {
-        strongPositive: '强烈偏向靠近',
-        positive: '略偏靠近',
-        neutral: '没有明显偏好',
-        negative: '略偏独处',
-        strongNegative: '强烈偏好独处',
+export function projectTavernPetAxesToProse(axes: TavernPetAxes): string {
+    const tameness = axisDirection(axes.tameness, {
+        strongPositive: '强烈亲人',
+        positive: '略偏亲人',
+        neutral: '看不出倾向',
+        negative: '略偏凶野',
+        strongNegative: '强烈凶野',
     });
-    const sharing = axisDirection(traits.sharing, {
-        strongPositive: '强烈偏向分享',
+    const generosity = axisDirection(axes.generosity, {
+        strongPositive: '强烈分享',
         positive: '略偏分享',
-        neutral: '没有明显偏好',
-        negative: '略偏收藏',
-        strongNegative: '强烈偏好收藏',
+        neutral: '看不出倾向',
+        negative: '略偏占有',
+        strongNegative: '强烈占有',
     });
-    const tempo = axisDirection(traits.tempo, {
-        strongPositive: '强烈偏向热闹',
-        positive: '略偏热闹',
-        neutral: '没有明显偏好',
-        negative: '略偏安静',
-        strongNegative: '强烈偏好安静',
+    const brightness = axisDirection(axes.brightness, {
+        strongPositive: '强烈明亮',
+        positive: '略偏明亮',
+        neutral: '看不出倾向',
+        negative: '略偏阴郁',
+        strongNegative: '强烈阴郁',
     });
-    return ['靠近/独处：' + closeness, '分享/收藏：' + sharing, '热闹/安静：' + tempo].join('；');
+    return ['亲近：' + tameness, '分享：' + generosity, '心境：' + brightness].join('；');
 }
 
-function appetiteBand(state: TavernPetState): 'stuffed' | 'not-hungry' | 'peckish' | 'hungry' {
-    if (state.appetite >= 85) {return 'stuffed';}
-    if (state.appetite >= 55) {return 'not-hungry';}
-    if (state.appetite >= 25) {return 'peckish';}
-    return 'hungry';
+function satietyBand(state: TavernPetState): 'full' | 'hungry' | 'starving' {
+    if (state.satiety >= 60) {return 'full';}
+    if (state.satiety >= 30) {return 'hungry';}
+    return 'starving';
 }
 
 function hungerFeeling(state: TavernPetState): string {
     return {
-        stuffed: '吃撑了，想慢慢消化',
-        'not-hungry': '不饿',
-        peckish: '有点饿',
-        hungry: '很饿，但还能自己待着',
-    }[appetiteBand(state)];
+        full: '撑着，不想再吃',
+        hungry: '有点饿',
+        starving: '很饿，饿得难受',
+    }[satietyBand(state)];
 }
 
 function emotionFeeling(emotion: TavernPetEmotion): string {
@@ -212,9 +206,6 @@ function chatSystemMessage(
     const selfName = selfNameLine(state);
     const summaryLine = '我对外面那个人的印象：'
         + (state.chatMemory.summary ? escapeTavernPetPromptData(state.chatMemory.summary) : '无');
-    const momentMemories = state.chatMemory.moments.length
-        ? state.chatMemory.moments.map(escapeTavernPetPromptData).join('\n')
-        : '无';
     const lines = [
         '你是一只住在手机屏幕背面暗室里的颜文字生物：一张脸、一个窝、',
         '一堆捡来的小东西，和一个隔着玻璃看你的人。你的世界只有这些。',
@@ -239,8 +230,6 @@ function chatSystemMessage(
         summaryLine,
         '我们最近说过的话：',
         recent,
-        '我记得的相处片段：',
-        momentMemories,
         '我最近做过的事：',
         traces,
         '</pet_memory>',
@@ -503,8 +492,11 @@ function normalizeLooseJsonCandidate(
 
 function normalizeStrictTavernPetChatResponseObject(
     object: Record<string, unknown>,
-    profile: TavernPetDialogueProfile,
+    state: TavernPetState,
 ): TavernPetChatResponse {
+    if (state.phase !== 'juvenile' && state.phase !== 'adult') {
+        throwTavernPetError('pet_chat_unavailable', state.phase);
+    }
     const unknownFields = Object.keys(object).filter((key) => !CHAT_RESPONSE_FIELDS.has(key));
     if (unknownFields.length
         || typeof object.face !== 'string'
@@ -516,6 +508,7 @@ function normalizeStrictTavernPetChatResponseObject(
     ) {
         throwTavernPetError('pet_chat_invalid', unknownFields.length ? 'unknown-fields' : 'fields');
     }
+    const profile = getTavernPetDialogueProfile(state.phase, state.personaId);
     const allowedFaces = Object.entries(profile.faces)
         .filter(([key]) => key !== 'thinking')
         .map(([, face]) => face);
@@ -537,40 +530,6 @@ function normalizeStrictTavernPetChatResponseObject(
         murmur: strictNullableText(object.murmur, 30, 'murmur'),
         summaryUpdate: strictNullableText(object.summaryUpdate, 100, 'summaryUpdate'),
     };
-}
-
-function resolveTavernPetChatProfile(profile: TavernPetChatProfile): TavernPetDialogueProfile {
-    if (profile?.phase === 'juvenile' && profile.personaId === undefined) {
-        return getTavernPetDialogueProfile('juvenile');
-    }
-    if (profile?.phase === 'adult'
-        && TAVERN_PET_PERSONA_IDS.some((personaId) => personaId === profile.personaId)
-    ) {
-        return getTavernPetDialogueProfile('adult', profile.personaId);
-    }
-    throwTavernPetError('pet_chat_invalid', 'profile');
-}
-
-export function tavernPetChatProfile(state: TavernPetState): TavernPetChatProfile {
-    if (state.phase === 'juvenile') {return { phase: 'juvenile' };}
-    if (state.phase === 'adult' && state.personaId) {
-        return { phase: 'adult', personaId: state.personaId };
-    }
-    throwTavernPetError('pet_chat_unavailable', state.phase);
-}
-
-export function mapTavernPetChatFaceToState(
-    face: string,
-    sourceProfile: TavernPetChatProfile,
-    targetState: TavernPetState,
-): string {
-    const source = resolveTavernPetChatProfile(sourceProfile);
-    const faceKey = Object.entries(source.faces).find(([, value]) => value === face)?.[0] as TavernPetFaceKey | undefined;
-    if (!faceKey || faceKey === 'thinking') {throwTavernPetError('pet_chat_invalid', 'face');}
-    if (targetState.phase !== 'juvenile' && targetState.phase !== 'adult') {
-        throwTavernPetError('pet_chat_unavailable', targetState.phase);
-    }
-    return getTavernPetDialogueProfile(targetState.phase, targetState.personaId).faces[faceKey];
 }
 
 export function parseTavernPetChatResponse(
@@ -607,17 +566,10 @@ export function normalizeTavernPetChatResponse(
     raw: unknown,
     state: TavernPetState,
 ): TavernPetChatResponse {
-    return normalizeTavernPetChatResponseForProfile(raw, tavernPetChatProfile(state));
-}
-
-export function normalizeTavernPetChatResponseForProfile(
-    raw: unknown,
-    profile: TavernPetChatProfile,
-): TavernPetChatResponse {
     if (!isJsonObject(raw)) {
         throwTavernPetError('pet_chat_invalid', 'object');
     }
-    return normalizeStrictTavernPetChatResponseObject(raw, resolveTavernPetChatProfile(profile));
+    return normalizeStrictTavernPetChatResponseObject(raw, state);
 }
 
 export function buildTavernPetEvolutionMessages(
@@ -643,11 +595,13 @@ export function buildTavernPetEvolutionMessages(
                 '里程碑：' + request.milestoneId,
                 '旧形态：' + previousPersonaName,
                 '新形态：' + persona.displayName,
-                '相处偏好：' + projectTavernPetTraitsToProse(request.traits),
+                '隐藏性格倾向：' + projectTavernPetAxesToProse(request.axes),
                 '一生统计：投喂' + stats.feedCount
+                    + '，摸头' + stats.patCount
+                    + '，拍打' + stats.hitCount
                     + '，玩具' + stats.toyCount
                     + '，聊天' + stats.chatCount
-                    + '，相处片段' + stats.momentCount
+                    + '，休眠' + stats.dormantCount
                     + '，拿走小白币' + stats.stolenTotal
                     + '，带回小白币' + stats.giftedTotal
                     + '。',

@@ -322,7 +322,7 @@
     let cleanActionState = {
         canRollback: false,
         rollbackTargetSummarizedUpTo: 0,
-        rollbackWillResetBoundary: false,
+        rollbackWillClearAll: false,
         summarizedUpTo: 0,
     };
     let relationChart = null;
@@ -341,8 +341,6 @@
     let timelineHasRenderedEvents = false;
     let currentTimelineChatId = '';
     let settingsSaveTimeoutId = null;
-    let currentChatSummaryEnabled = true;
-    let currentChatSummaryPending = true;
     let panelConfigLoadedFromServer = false;
     let settingsOpenedWithServerConfig = false;
     const pendingConfigSaveRequests = new Map();
@@ -444,38 +442,6 @@
         } else {
             config.trigger.timing = normalizeTriggerTiming(config.trigger.timing);
         }
-    }
-
-    function syncCurrentChatSummaryControls(
-        enabled = currentChatSummaryEnabled,
-        effectiveEnabled = enabled,
-        consumable = effectiveEnabled,
-    ) {
-        currentChatSummaryEnabled = enabled !== false;
-        const controlsEnabled = effectiveEnabled && consumable && !currentChatSummaryPending;
-        const toggle = $('current-chat-enabled');
-        if (toggle) {
-            toggle.checked = currentChatSummaryEnabled;
-            toggle.disabled = currentChatSummaryPending;
-        }
-
-        const generateButton = $('btn-generate');
-        if (generateButton) {
-            generateButton.disabled = !controlsEnabled;
-            generateButton.title = currentChatSummaryPending
-                ? '正在同步当前聊天状态'
-                : !effectiveEnabled
-                    ? '请先启用当前聊天的剧情总结'
-                    : !consumable
-                        ? '总结历史无法安全回滚；请导出并修正后重新导入，或清空总结数据'
-                        : '';
-        }
-
-        for (const id of ['hide-summarized', 'keep-visible-count', 'use-vector-boundary']) {
-            const control = $(id);
-            if (control) control.disabled = !controlsEnabled;
-        }
-        syncVectorBoundaryControl(config.vector?.enabled, controlsEnabled && config.ui.hideSummarized);
     }
 
     function syncAutoSummaryControls() {
@@ -1879,8 +1845,8 @@
                 rollbackBtn.disabled = !cleanActionState.canRollback;
                 clearBtn.disabled = false;
                 rollbackDesc.textContent = cleanActionState.canRollback
-                    ? (cleanActionState.rollbackWillResetBoundary
-                        ? '撤销首次总结生成的内容；人工修改不会被覆盖，存在冲突时将拒绝回退。聊天记录不会删除。'
+                    ? (cleanActionState.rollbackWillClearAll
+                        ? '撤销最近一次总结，当前总结数据会被清空。聊天记录不会删除。'
                         : `撤销最近一次总结，已总结楼层将回退到 ${cleanActionState.rollbackTargetSummarizedUpTo} 楼。聊天记录不会删除。`)
                     : '当前没有可回退的总结快照。';
                 clearDesc.textContent = '删除本聊天的全部总结数据，聊天记录不会删除。';
@@ -2282,15 +2248,6 @@
         const btn = $('btn-generate');
 
         switch (d.type) {
-            case 'CHAT_SUMMARY_STATE':
-                currentChatSummaryPending = d.state?.changing === true;
-                syncCurrentChatSummaryControls(
-                    d.state?.chatEnabled !== false,
-                    d.state?.effectiveEnabled !== false,
-                    d.state?.consumable !== false,
-                );
-                break;
-
             case 'GENERATION_STATE':
                 localGenerating = !!d.isGenerating;
                 btn.textContent = localGenerating ? '停止' : '总结';
@@ -2311,7 +2268,7 @@
                 syncVectorBoundaryControl(d.vectorEnabled, d.hideSummarized ?? config.ui.hideSummarized);
                 cleanActionState.canRollback = !!d.canRollback;
                 cleanActionState.rollbackTargetSummarizedUpTo = Number(d.rollbackTargetSummarizedUpTo || 0);
-                cleanActionState.rollbackWillResetBoundary = !!d.rollbackWillResetBoundary;
+                cleanActionState.rollbackWillClearAll = !!d.rollbackWillClearAll;
                 break;
 
             case 'SUMMARY_FULL_DATA':
@@ -2609,21 +2566,13 @@
             e.target.value = val;
         };
 
-        // Current chat switch (saved immediately in chat metadata)
-        $('current-chat-enabled').onchange = e => {
-            const enabled = e.target.checked;
-            currentChatSummaryPending = true;
-            syncCurrentChatSummaryControls(enabled);
-            postMsg('SET_CURRENT_CHAT_ENABLED', { enabled });
-        };
-
         // Main actions
         $('btn-clear').onclick = async () => {
             const action = await showCleanActionMenu();
             if (action === 'rollback') {
                 const currentUpTo = cleanActionState.summarizedUpTo || 0;
-                const rollbackMessage = cleanActionState.rollbackWillResetBoundary
-                    ? '确定回退首次总结吗？首次总结生成的内容会被撤销；人工修改不会被覆盖，存在冲突时将拒绝回退。聊天记录不会删除。'
+                const rollbackMessage = cleanActionState.rollbackWillClearAll
+                    ? '确定回退上一次总结吗？这会清空当前总结数据，但聊天记录不会删除。'
                     : `确定回退上一次总结吗？将把已总结楼层从 ${currentUpTo} 回退到 ${cleanActionState.rollbackTargetSummarizedUpTo}。聊天记录不会删除。`;
                 if (await showConfirm('回退一次', rollbackMessage, '回退', '取消')) {
                     postMsg('REQUEST_ROLLBACK_ONCE');
@@ -2756,7 +2705,6 @@
         renderFacts([]);
 
         bindEvents();
-        syncCurrentChatSummaryControls(currentChatSummaryEnabled);
 
         // === THEME SWITCHER ===
         (function () {

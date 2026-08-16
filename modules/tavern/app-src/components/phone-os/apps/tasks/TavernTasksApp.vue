@@ -80,8 +80,7 @@ const dialogDetails = computed(() => {
     if (current.kind === 'accept') {
         return [
             current.listing.title,
-            `地点：${current.listing.location}`,
-            `时机：${current.listing.timing || '未标注'}`,
+            `发布者：${current.listing.issuer.name}`,
             `托管报酬：${tavernTaskRewardLabel(current.listing.reward)} 小白币`,
         ];
     }

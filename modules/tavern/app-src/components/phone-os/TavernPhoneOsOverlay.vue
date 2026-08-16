@@ -106,7 +106,6 @@ onUnmounted(() => document.removeEventListener('keydown', handleDocumentKeydown)
     >
       <TavernPhoneDeviceFrame
         :mode="phone.os.presentationMode.value"
-        :chrome-tone="phone.os.activeApp.value?.chromeTone"
         @close="phone.os.closePhone"
       >
         <TavernPhoneSystemBar

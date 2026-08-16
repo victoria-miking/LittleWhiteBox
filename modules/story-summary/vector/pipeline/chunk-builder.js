@@ -19,6 +19,8 @@ import {
 import { embed, getEngineFingerprint } from '../utils/embedder.js';
 import { xbLog } from '../../../../core/debug-core.js';
 import { filterText } from '../utils/text-filter.js';
+import { attachYunxuanMemoryMetadata } from '../../../yunxuan/memory-metadata.js';
+import { stripYunxuanTurnEnvelope } from '../../../yunxuan/turn-envelope.js';
 
 const MODULE_ID = 'chunk-builder';
 
@@ -51,7 +53,7 @@ export function chunkMessage(floor, message, maxTokens = CHUNK_MAX_TOKENS) {
     // 1. 应用用户自定义过滤规则
     // 2. 移除 TTS 标记（硬编码）
     // 3. 移除 <state> 标签（硬编码，L0 已单独存储）
-    const cleanText = filterText(text)
+    const cleanText = stripYunxuanTurnEnvelope(filterText(text))
         .replace(/\[tts:[^\]]*\]/gi, '')
         .replace(/<state>[\s\S]*?<\/state>/gi, '')
         .trim();
@@ -61,7 +63,7 @@ export function chunkMessage(floor, message, maxTokens = CHUNK_MAX_TOKENS) {
     const totalTokens = estimateTokens(cleanText);
 
     if (totalTokens <= maxTokens) {
-        return [{
+        return [attachYunxuanMemoryMetadata({
             chunkId: makeChunkId(floor, 0),
             floor,
             chunkIdx: 0,
@@ -69,7 +71,7 @@ export function chunkMessage(floor, message, maxTokens = CHUNK_MAX_TOKENS) {
             isUser,
             text: cleanText,
             textHash: hashText(cleanText),
-        }];
+        }, { source_message_ids: [floor] })];
     }
 
     const sentences = splitSentences(cleanText);
@@ -144,7 +146,7 @@ export function chunkMessage(floor, message, maxTokens = CHUNK_MAX_TOKENS) {
         });
     }
 
-    return chunks;
+    return chunks.map(chunk => attachYunxuanMemoryMetadata(chunk, { source_message_ids: [floor] }));
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

@@ -21,6 +21,7 @@ import { getMeta } from "../vector/storage/chunk-store.js";
 import { getStateAtoms } from "../vector/storage/state-store.js";
 import { getEngineFingerprint } from "../vector/utils/embedder.js";
 import { buildTrustedCharacters } from "../vector/retrieval/entity-lexicon.js";
+import { filterYunxuanRecallResult } from '../../yunxuan/knowledge-filter.js';
 
 // Metrics
 import { formatMetricsLog, detectIssues } from "../vector/retrieval/metrics.js";
@@ -1403,6 +1404,7 @@ export async function buildVectorPromptText(excludeLastAi = false, hooks = {}) {
             focusCharacters: recallResult?.focusCharacters || [],
             metrics: recallResult?.metrics || null,
         };
+        recallResult = filterYunxuanRecallResult(recallResult);
 
         // 构建因果事件索引
         causalById = new Map(

@@ -44,6 +44,9 @@ import {
     isTauriTavernChatSurfaceManaged,
     lockTauriTavernChatSurfaceSettings,
 } from "./integrations/tauritavern-chat-surface/index.js";
+import { installYunxuanRuntimeBridge } from './modules/yunxuan/runtime-bridge.js';
+
+installYunxuanRuntimeBridge();
 
 extension_settings[EXT_ID] = extension_settings[EXT_ID] || {
     enabled: true,

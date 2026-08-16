@@ -1,3 +1,5 @@
+import { YUNXUAN_PLANNER_BLOCKS } from '../yunxuan/planner-preset.js';
+
 export const DEFAULT_PROMPT_BLOCKS = [
     {
         id: 'ena-default-system-001',
@@ -284,4 +286,5 @@ export const DEFAULT_PROMPT_BLOCKS = [
 
 export const BUILTIN_TEMPLATES = {
     'Ena默认模板': DEFAULT_PROMPT_BLOCKS,
+    '云璇宗 Planner v1': YUNXUAN_PLANNER_BLOCKS,
 };

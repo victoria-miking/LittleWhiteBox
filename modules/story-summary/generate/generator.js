@@ -3,20 +3,11 @@
 
 import { getContext } from "../../../../../../extensions.js";
 import { xbLog } from "../../../core/debug-core.js";
-import {
-    addSummarySnapshot,
-    getFacts,
-    getSummaryStore,
-    mergeNewData,
-    saveSummaryStoreImmediately,
-} from "../data/store.js";
+import { getSummaryStore, saveSummaryStore, addSummarySnapshot, mergeNewData, getFacts } from "../data/store.js";
 import { formatCharacterAliasTableForAI, sanitizeCharacterAliasUpdates } from "../data/character-aliases.js";
-import {
-    generateSummary,
-    isSummaryGenerationCancelledError,
-    parseSummaryJson,
-} from "./llm.js";
+import { generateSummary, parseSummaryJson } from "./llm.js";
 import { filterText } from "../vector/utils/text-filter.js";
+import { stripYunxuanTurnEnvelope } from '../../yunxuan/turn-envelope.js';
 
 const MODULE_ID = 'summaryGenerator';
 const SUMMARY_SESSION_ID = 'xb9';
@@ -208,7 +199,7 @@ export function buildIncrementalSlice(targetMesId, lastSummarizedMesId, maxPerRu
 
     const text = slice.map((m, i) => {
         const speaker = m.name || (m.is_user ? userLabel : charLabel);
-        const filteredMessage = filterText(m.mes || "");
+        const filteredMessage = stripYunxuanTurnEnvelope(filterText(m.mes || ""));
         return `#${start + i + 1} 【${speaker}】\n${filteredMessage}`;
     }).join('\n\n');
 
@@ -219,36 +210,11 @@ export function buildIncrementalSlice(targetMesId, lastSummarizedMesId, maxPerRu
 // 主生成函数
 // ═══════════════════════════════════════════════════════════════════════════
 
-function isSummaryRunInactive(signal, targetChatId) {
-    return signal?.aborted || (targetChatId && getContext()?.chatId !== targetChatId);
-}
-
-function cancelledResult(onStatus, committed = false) {
-    onStatus?.(committed ? "总结已保存，后续处理已停止" : "已停止");
-    return { success: committed, cancelled: true, committed };
-}
-
-function staleSourceResult(onStatus) {
-    onStatus?.("对话或总结内容已变化，本次结果未保存");
-    return { success: false, stale: true };
-}
-
-export async function runSummaryGeneration(mesId, config, callbacks = {}, runtime = {}) {
+export async function runSummaryGeneration(mesId, config, callbacks = {}) {
     const { onStatus, onError, onComplete } = callbacks;
-    const { signal = null, targetChatId = getContext()?.chatId || null } = runtime;
-
-    if (isSummaryRunInactive(signal, targetChatId)) {
-        return cancelledResult(onStatus);
-    }
 
     const store = getSummaryStore();
-    if (store?.summaryInvalid === true) {
-        onError?.("总结历史无法安全回滚：请导出当前总结，修正后重新导入，或清空总结数据");
-        return { success: false, error: "summary_invalid" };
-    }
     const lastSummarized = store?.lastSummarizedMesId ?? -1;
-    const storeUpdatedAt = store?.updatedAt;
-    const storeJsonAtStart = JSON.stringify(store?.json || {});
     const maxPerRun = config.trigger?.maxPerRun || 100;
     const slice = buildIncrementalSlice(mesId, lastSummarized, maxPerRun);
 
@@ -283,30 +249,11 @@ export async function runSummaryGeneration(mesId, config, callbacks = {}, runtim
             genParams: config.gen || {},
             useStream,
             sessionId: SUMMARY_SESSION_ID,
-            signal,
         });
     } catch (err) {
-        if (isSummaryGenerationCancelledError(err)) {
-            onStatus?.("已停止");
-            return { success: false, cancelled: true };
-        }
         xbLog.error(MODULE_ID, '生成失败', err);
         onError?.(err?.message || "生成失败");
         return { success: false, error: err };
-    }
-
-    if (isSummaryRunInactive(signal, targetChatId)) {
-        return cancelledResult(onStatus);
-    }
-    const currentSlice = buildIncrementalSlice(mesId, lastSummarized, maxPerRun);
-    if (
-        (store?.lastSummarizedMesId ?? -1) !== lastSummarized
-        || store?.updatedAt !== storeUpdatedAt
-        || JSON.stringify(store?.json || {}) !== storeJsonAtStart
-        || currentSlice.endMesId !== slice.endMesId
-        || currentSlice.text !== slice.text
-    ) {
-        return staleSourceResult(onStatus);
     }
 
     if (!raw?.trim()) {
@@ -329,25 +276,16 @@ export async function runSummaryGeneration(mesId, config, callbacks = {}, runtim
 
     const mergeResult = mergeNewData(store?.json || {}, parsed, slice.endMesId, { returnMeta: true });
     const merged = mergeResult.json;
-    const previousStore = structuredClone(store);
+    if (mergeResult.aliasMigration) {
+        store.aliasMigrations ||= [];
+        store.aliasMigrations.push(mergeResult.aliasMigration);
+    }
+
     store.lastSummarizedMesId = slice.endMesId;
     store.json = merged;
-    delete store.pendingImportBoundary;
-    const committedUpdatedAt = Date.now();
-    store.updatedAt = committedUpdatedAt;
-    addSummarySnapshot(store, lastSummarized, slice.endMesId, mergeResult.undo);
-
-    try {
-        await saveSummaryStoreImmediately(targetChatId);
-    } catch (error) {
-        if (store.updatedAt === committedUpdatedAt) {
-            for (const key of Object.keys(store)) delete store[key];
-            Object.assign(store, previousStore);
-        }
-        xbLog.error(MODULE_ID, '总结持久化失败', error);
-        onError?.('总结未能保存，请重试');
-        return { success: false, error };
-    }
+    store.updatedAt = Date.now();
+    addSummarySnapshot(store, slice.endMesId);
+    saveSummaryStore();
 
     xbLog.info(MODULE_ID, `总结完成，已更新至 ${slice.endMesId + 1} 楼`);
 
@@ -357,34 +295,13 @@ export async function runSummaryGeneration(mesId, config, callbacks = {}, runtim
 
     const newEventIds = (parsed.events || []).map(e => e.id);
 
-    try {
-        await onComplete?.({
-            merged,
-            store,
-            targetChatId,
-            signal,
-            endMesId: slice.endMesId,
-            newEventIds,
-            aliasChanged: !!mergeResult.aliasChanged,
-            factStats: { updated: parsed.factUpdates?.length || 0 },
-        });
-    } catch (error) {
-        if (isSummaryGenerationCancelledError(error) || isSummaryRunInactive(signal, targetChatId)) {
-            return cancelledResult(onStatus, true);
-        }
-        xbLog.warn(MODULE_ID, '总结已提交，但收尾任务失败', error);
-    }
-
-    if (isSummaryRunInactive(signal, targetChatId)) {
-        return cancelledResult(onStatus, true);
-    }
-
-    return {
-        success: true,
-        committed: true,
+    onComplete?.({
         merged,
         endMesId: slice.endMesId,
         newEventIds,
         aliasChanged: !!mergeResult.aliasChanged,
-    };
+        factStats: { updated: parsed.factUpdates?.length || 0 },
+    });
+
+    return { success: true, merged, endMesId: slice.endMesId, newEventIds, aliasChanged: !!mergeResult.aliasChanged };
 }

@@ -7,6 +7,7 @@ import { addEventDocuments, warmupIndex } from '../story-summary/vector/retrieva
 import { YunxuanCanonProvider } from './canon-provider.js';
 import { filterYunxuanRecallResult, getLastYunxuanRecallDebug, getLastYunxuanRecallMetrics } from './knowledge-filter.js';
 import { importProjectMemorySeed, listProjectMemoryIds } from './memory-seed-import.js';
+import { getYunxuanMemoryV2Info, importYunxuanMemoryV2Bundle, queryYunxuanMemoryV2Context } from './memory-v2-store.js';
 import { isBlankYunxuanRuntime } from './runtime-seed-guard.js';
 
 function parseValue(value) {
@@ -60,6 +61,7 @@ export function createYunxuanRuntimeApi({ fieldPolicy = null } = {}) {
     let canonProvider = fieldPolicy ? new YunxuanCanonProvider(fieldPolicy) : null;
     const transactions = [];
     const rollbacks = [];
+    let lastMemoryV2Debug = null;
     return Object.freeze({
         getRuntimeSnapshotSync,
         async getRuntimeSnapshot() {
@@ -99,7 +101,13 @@ export function createYunxuanRuntimeApi({ fieldPolicy = null } = {}) {
         },
         async importMemorySeed(memories, options = {}) {
             const store = getSummaryStore();
-            const result = importProjectMemorySeed(store, memories, options);
+            const memoryV2Active = !!getYunxuanMemoryV2Info(store);
+            const importItems = memoryV2Active
+                ? (memories || []).map(memory => /^legacy-M\d+$/u.test(String(memory?.id || ''))
+                    ? { ...structuredClone(memory), metadata: { ...(structuredClone(memory.metadata || memory.memory_metadata || {})), conflict_status: 'superseded' } }
+                    : memory)
+                : memories;
+            const result = importProjectMemorySeed(store, importItems, options);
             if (result.inserted > 0) {
                 saveSummaryStore();
                 addEventDocuments(result.inserted_events);
@@ -107,6 +115,47 @@ export function createYunxuanRuntimeApi({ fieldPolicy = null } = {}) {
             }
             const { inserted_events: _insertedEvents, ...summary } = result;
             return summary;
+        },
+        getMemoryV2Info() {
+            return getYunxuanMemoryV2Info(getSummaryStore());
+        },
+        getMemoryV2Audit() {
+            const store = getSummaryStore();
+            const bundle = store?.json?.yunxuan_memory_v2 ?? null;
+            const legacy = (store?.json?.events ?? [])
+                .filter(event => /^legacy-M\d+$/u.test(String(event?.id ?? '')))
+                .map(event => ({
+                    id: event.id,
+                    conflict_status: event?.memory_metadata?.conflict_status ?? null,
+                }));
+            return {
+                bundle_id: bundle?.bundle_id ?? null,
+                nodes: bundle?.nodes?.length ?? 0,
+                legacy,
+            };
+        },
+        async importMemoryV2Bundle(bundle, options = {}) {
+            const store = getSummaryStore();
+            const result = importYunxuanMemoryV2Bundle(store, bundle, options);
+            if (result.imported || result.legacy_superseded > 0) saveSummaryStore();
+            return result;
+        },
+        queryMemoryV2Context(request = {}) {
+            const result = queryYunxuanMemoryV2Context(getSummaryStore(), request);
+            lastMemoryV2Debug = {
+                bundle_id: result.bundle_id ?? null,
+                mode: result.mode ?? request.mode ?? null,
+                perspective: result.perspective ?? request.perspective ?? null,
+                selected_ids: [...(result.selected_ids || [])],
+                suppressed_recent_ids: [...(result.suppressed_recent_ids || [])],
+                removed_visibility_ids: [...(result.removed_visibility_ids || [])],
+                counts: structuredClone(result.counts || {}),
+                recent_window: result.recent_window ? [...result.recent_window] : null,
+            };
+            return result;
+        },
+        getMemoryV2Debug() {
+            return lastMemoryV2Debug ? structuredClone(lastMemoryV2Debug) : null;
         },
         async applyRuntimeTransaction(transactionEnvelope, nextState) {
             const transaction = transactionEnvelope?.transaction;

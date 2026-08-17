@@ -2,8 +2,12 @@ import { eventSource } from '../../../../../../script.js';
 import { getContext } from '../../../../../extensions.js';
 import { getLocalVariable, setLocalVariable } from '../../../../../variables.js';
 import { applyStateForMessage, restoreStateV2ToFloor, trimStateV2FromFloor } from '../variables/state2/index.js';
+import { getSummaryStore, saveSummaryStore } from '../story-summary/data/store.js';
+import { addEventDocuments, warmupIndex } from '../story-summary/vector/retrieval/lexical-index.js';
 import { YunxuanCanonProvider } from './canon-provider.js';
 import { filterYunxuanRecallResult, getLastYunxuanRecallDebug, getLastYunxuanRecallMetrics } from './knowledge-filter.js';
+import { importProjectMemorySeed, listProjectMemoryIds } from './memory-seed-import.js';
+import { isBlankYunxuanRuntime } from './runtime-seed-guard.js';
 
 function parseValue(value) {
     if (value && typeof value === 'object') return structuredClone(value);
@@ -80,13 +84,29 @@ export function createYunxuanRuntimeApi({ fieldPolicy = null } = {}) {
         getRollbackDebug() {
             return structuredClone(rollbacks);
         },
-        async initializeRuntime(nextState) {
-            if (getRuntimeSnapshotSync()) return getRuntimeSnapshotSync();
+        async initializeRuntime(nextState, _messageRef = null, options = {}) {
+            const current = getRuntimeSnapshotSync();
+            if (current && options.replaceEmptyRuntime !== true) return current;
+            if (current && !isBlankYunxuanRuntime(current)) throw new Error('existing_runtime_detected');
             if (!nextState?.yunxuan || nextState.yunxuan_author) throw new Error('非法初始 Runtime。');
             saveBaseState(nextState);
             setLocalVariable('yunxuan', JSON.stringify(nextState.yunxuan));
             getContext()?.saveMetadataDebounced?.();
             return getRuntimeSnapshotSync();
+        },
+        getProjectMemoryIds(options = {}) {
+            return listProjectMemoryIds(getSummaryStore(), options);
+        },
+        async importMemorySeed(memories, options = {}) {
+            const store = getSummaryStore();
+            const result = importProjectMemorySeed(store, memories, options);
+            if (result.inserted > 0) {
+                saveSummaryStore();
+                addEventDocuments(result.inserted_events);
+                warmupIndex();
+            }
+            const { inserted_events: _insertedEvents, ...summary } = result;
+            return summary;
         },
         async applyRuntimeTransaction(transactionEnvelope, nextState) {
             const transaction = transactionEnvelope?.transaction;
